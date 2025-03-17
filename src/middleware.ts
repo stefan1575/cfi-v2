@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Redirect authenticated users away from public routes
-  if (session && (pathname === "/" || pathname === "/login")) {
+  if (session && (pathname === "/" || pathname === "/admin/signup")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -33,5 +33,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/dashboard", "/dashboard/:path*"], // Apply middleware to specific routes
+  matcher: ["/", "/admin/signup", "/dashboard", "/dashboard/:path*"], // Apply middleware to specific routes
 };

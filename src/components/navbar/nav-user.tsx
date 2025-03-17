@@ -1,20 +1,18 @@
 "use client";
 
 import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
-import { LogOut, Shield, User2 } from "lucide-react";
-import Link from "next/link";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 type NavUserProps = {
@@ -38,7 +36,7 @@ export function NavUser({ user }: NavUserProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" variant="ghost" asChild>
-          <Avatar className="cursor-pointer rounded-full select-none hover:border-2 size-8">
+          <Avatar className="size-8 cursor-pointer rounded-full select-none hover:border-2">
             {user.image && <AvatarImage src={user.image} alt={user.name} />}
             <AvatarFallback>
               {user.name.substring(0, 2).toUpperCase()}
@@ -65,22 +63,7 @@ export function NavUser({ user }: NavUserProps) {
             </div>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer" asChild>
-            <Link href="/dashboard/profile">
-              <User2 />
-              Profile
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer" asChild>
-            <Link href="/dashboard/profile/security">
-              <Shield />
-              Security
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
+        <Separator />
         <DropdownMenuItem className="cursor-pointer" onClick={() => logout()}>
           <LogOut />
           Logout

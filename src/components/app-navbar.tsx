@@ -1,6 +1,4 @@
 import { NavUser } from "./navbar/nav-user";
-import { NavNotification } from "@/components/navbar/nav-notification";
-import { NavPath } from "@/components/navbar/nav-path";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { auth } from "@/lib/auth";
@@ -18,10 +16,8 @@ export function AppNavbar({ user }: AppNavbarProps) {
           orientation="vertical"
           className="mr-2 data-[orientation=vertical]:h-4"
         />
-        <NavPath />
       </div>
       <div className="flex items-center justify-center gap-2 pr-4">
-        <NavNotification />
         <NavUser user={user} />
       </div>
     </header>

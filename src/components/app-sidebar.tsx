@@ -1,157 +1,80 @@
 "use client";
 
-import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
-
-import { SidebarMain } from "@/components/sidebar/sidebar-main";
-import { SidebarProjects } from "@/components/sidebar/sidebar-projects";
-import { SidebarUser } from "@/components/sidebar/sidebar-user";
-import { SidebarTeamSwitcher } from "@/components/sidebar/sidebar-team-switcher";
+import { SidebarLogo } from "./sidebar/sidebar-logo";
+import { SidebarContentGroup } from "./sidebar/sidebar-main";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import {
+  Banknote,
+  ClipboardList,
+  ClipboardMinus,
+  ClipboardPlus,
+  FileClock,
+  Folder,
+  FolderClock,
+  HandCoins,
+  Scale,
+  UsersRound,
+} from "lucide-react";
+import * as React from "react";
 
-// This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
+  File_Maintenance: [
     {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      title: "Client Master",
+      url: "#",
+      icon: UsersRound,
     },
     {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
+      title: "Inventory Master",
+      url: "#",
+      icon: Folder,
     },
     {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
+      title: "Inventory History",
+      url: "#",
+      icon: FolderClock,
+    },
+    {
+      title: "Expenses",
+      url: "#",
+      icon: HandCoins,
+    },
+    {
+      title: "Exchange Rate",
+      url: "#",
+      icon: Scale,
+    },
+    {
+      title: "Chart Account",
+      url: "#",
+      icon: Banknote,
     },
   ],
-  main: [
+  Reports: [
     {
-      title: "Playground",
+      title: "Expense Report",
       url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      icon: ClipboardMinus,
     },
     {
-      title: "Models",
+      title: "Inventory List",
       url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      icon: ClipboardList,
     },
     {
-      title: "Documentation",
+      title: "Sales Report",
       url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      icon: ClipboardPlus,
     },
     {
-      title: "Settings",
+      title: "Sales History Report",
       url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      icon: FileClock,
     },
   ],
 };
@@ -160,15 +83,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarTeamSwitcher teams={data.teams} />
+        <SidebarLogo />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMain items={data.main} />
-        <SidebarProjects projects={data.projects} />
+        <SidebarContentGroup
+          title="File Maintenance"
+          items={data.File_Maintenance}
+        />
+        <SidebarContentGroup title="Reports" items={data.Reports} />
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarUser user={data.user} />
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

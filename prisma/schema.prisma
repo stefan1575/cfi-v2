@@ -79,6 +79,29 @@ model ClientMaster {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
+  // Client Information
+  clientNumber    String // Arbitrary calculation, Depends on either lastName or companyName
+  firstName       String?
+  lastName        String?
+  companyName     String?
+  taxId           String?
+  // Contact Information
+  phoneNumber     String? // Candidate for Int? change - Need to check how dashes are rendered
+  email           String?
+  // Location
+  address         String?
+  city            String?
+  state           String?
+  zipCode         String?
+  // Miscellanous
+  isMailingList   Boolean   @default(false)
+  lastInvoiceDate DateTime? @db.Date // Derived, References inventory_master and inventory_history
+  totalSales      Decimal   @default(0) @db.Decimal(12, 2) // Derived, Calculated with inventory_master and inventory_history
+
+  inventoryMaster  InventoryMaster[]
+  inventoryHistory InventoryHistory[]
+
+  @@unique([clientNumber])
   @@map("client_master")
 }
 
@@ -87,6 +110,31 @@ model InventoryMaster {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
+
+  // Inventory Information
+  year                 Int // References exchange_rate value
+  shipmentNumber       Int // References exchange_rate value
+  pieceNumber          Int
+  description          String?
+  dollarCost           Decimal?  @db.Decimal(12, 2)
+  euroCost             Decimal?  @db.Decimal(12, 2)
+  repairCost           Decimal?  @db.Decimal(12, 2)
+  // Derived Fields
+  landedCost           Decimal?  @db.Decimal(12, 2) // Calculated with exchange_rate value, depends on either dollarCost or euroCost
+  suggestedRetailPrice Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on landedCost
+  designerNetPrice     Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on designerNetPrice
+  // Sold Information
+  clientNumber         String? // References client value - candidate for removal?
+  dateSold             DateTime? @db.Date
+  invoiceNumber        Int?
+  priceSold            Decimal?  @db.Decimal(12, 2)
+  taxCost              Decimal?  @db.Decimal(12, 2)
+  isConsignment        Boolean   @default(false)
+
+  shipment       Shipment      @relation(fields: [shipmentId], references: [id])
+  shipmentId     Int
+  clientMaster   ClientMaster? @relation(fields: [clientMasterId], references: [id])
+  clientMasterId Int?
 
   @@map("inventory_master")
 }
@@ -97,6 +145,31 @@ model InventoryHistory {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
+  // Inventory Information
+  year                 Int // References exchange_rate value
+  shipmentNumber       Int // References exchange_rate value
+  pieceNumber          Int
+  description          String?
+  dollarCost           Decimal?  @db.Decimal(12, 2)
+  euroCost             Decimal?  @db.Decimal(12, 2)
+  repairCost           Decimal?  @db.Decimal(12, 2)
+  // Derived Fields
+  landedCost           Decimal?  @db.Decimal(12, 2) // Calculated with exchange_rate value, depends on either dollarCost or euroCost
+  suggestedRetailPrice Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on landedCost
+  designerNetPrice     Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on designerNetPrice
+  // Sold Information
+  clientNumber         String? // References client value - candidate for removal?
+  dateSold             DateTime? @db.Date
+  invoiceNumber        Int?
+  priceSold            Decimal?  @db.Decimal(12, 2)
+  taxCost              Decimal?  @db.Decimal(12, 2)
+  isConsignment        Boolean   @default(false)
+
+  shipment       Shipment      @relation(fields: [shipmentId], references: [id])
+  shipmentId     Int
+  clientMaster   ClientMaster? @relation(fields: [clientMasterId], references: [id])
+  clientMasterId Int?
+
   @@map("inventory_history")
 }
 
@@ -106,16 +179,36 @@ model Expenses {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
+  // Expense Information
+  checkNumber     String?
+  description     String?
+  amount          Decimal?  @db.Decimal(12, 2)
+  transactionDate DateTime? @db.Date
+  accountNumber   String? // References chartAccount value - Candidate for removal
+  accountName     String? // References chartAccount value - Candidate for removal
+
+  chartAccount   ChartAccount? @relation(fields: [chartAccountId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  chartAccountId Int?
+
   @@map("expenses")
 }
 
-model ExchangeRate {
+model Shipment {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
-  @@map("exchange_rate")
+  year            Int
+  shipmentNumber  Int
+  landedCostRatio Decimal  @db.Decimal(12, 4)
+  exchangeRate    Decimal? @db.Decimal(12, 4) // Candidate for removal - Client preference
+
+  inventory_master  InventoryMaster[]
+  inventory_history InventoryHistory[]
+
+  @@unique([year, shipmentNumber])
+  @@map("shipment")
 }
 
 model ChartAccount {
@@ -124,5 +217,12 @@ model ChartAccount {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
+  // ChartAccount Information
+  accountName   String
+  accountNumber String
+
+  expenses Expenses[]
+
+  @@unique([accountName, accountNumber])
   @@map("chart_account")
 }

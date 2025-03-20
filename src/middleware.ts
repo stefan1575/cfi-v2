@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
     !session &&
     (pathname === "/dashboard" || pathname.startsWith("/dashboard/"))
   ) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
   return NextResponse.next();
 }

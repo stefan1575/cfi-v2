@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,6 +5,825 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model az_temp {
+  id                Int      @id @default(autoincrement())
+  Client_Number     String?  @map("Client Number") @db.VarChar(6)
+  Company           String?  @db.VarChar(21)
+  Title             String?  @db.VarChar(3)
+  First_Name        String?  @map("First Name") @db.VarChar(7)
+  MI                String?  @db.VarChar(0)
+  Last_Name         String?  @map("Last Name") @db.VarChar(7)
+  Addr_1            String?  @map("Addr 1") @db.VarChar(23)
+  Addr_2            String?  @map("Addr 2") @db.VarChar(0)
+  City              String?  @db.VarChar(15)
+  State             String?  @db.VarChar(2)
+  Zip               Int?     @db.MediumInt
+  AC                String?  @db.VarChar(3)
+  Phone             String?  @db.VarChar(8)
+  C_or_P            String?  @map("C or P") @db.VarChar(1)
+  Date_For_P        String?  @map("Date For P") @db.VarChar(4)
+  Ret_whosale       String?  @db.VarChar(1)
+  W_Type            String?  @db.VarChar(2)
+  Tax_ID            String?  @map("Tax ID") @db.VarChar(11)
+  Current_YR        String?  @map("Current YR") @db.VarChar(0)
+  Accum_Total_Sales String?  @map("Accum Total Sales") @db.VarChar(0)
+  Salutation        String?  @db.VarChar(0)
+  Mailing_List      String?  @map("Mailing List") @db.VarChar(5)
+  Last_Invoice_Date String?  @map("Last Invoice Date") @db.VarChar(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime
+}
+
+model chrtacct {
+  id             Int     @id @default(autoincrement())
+  Account_Number String? @map("Account Number")
+  Account_Name   String? @map("Account Name")
+  January_Cur    Float?  @map("January Cur")
+  February_Cur   Float?  @map("February Cur")
+  March_Cur      Float?  @map("March Cur")
+  April_Cur      Float?  @map("April Cur")
+  May_Cur        Float?  @map("May Cur")
+  June_Cur       Float?  @map("June Cur")
+  July_Cur       Float?  @map("July Cur")
+  August_Cur     Float?  @map("August Cur")
+  September_Cur  Float?  @map("September Cur")
+  October_Cur    Float?  @map("October Cur")
+  November_Cur   Float?  @map("November Cur")
+  December_Cur   Float?  @map("December Cur")
+  January_Prev   Float?  @map("January Prev")
+  February_Prev  Float?  @map("February Prev")
+  March_Prev     Float?  @map("March Prev")
+  April_Prev     Float?  @map("April Prev")
+  May_Prev       Float?  @map("May Prev")
+  June_Prev      Float?  @map("June Prev")
+  July_Prev      Float?  @map("July Prev")
+  August_Prev    Float?  @map("August Prev")
+  September_Prev Float?  @map("September Prev")
+  October_Prev   Float?  @map("October Prev")
+  November_Prev  Float?  @map("November Prev")
+  December_Prev  Float?  @map("December Prev")
+  isHidden       Boolean @default(false)
+}
+
+model client {
+  id                Int       @id @default(autoincrement())
+  Client_Number     String?   @map("Client Number")
+  Company           String?
+  Title             String?
+  First_Name        String?   @map("First Name")
+  MI                String?
+  Last_Name         String?   @map("Last Name")
+  Addr_1            String?   @map("Addr 1")
+  City              String?
+  State             String?
+  Zip               String?
+  AC                String?
+  Phone             String?
+  C_or_P            String?   @map("C or P")
+  Date_For_P        String?   @map("Date For P")
+  Ret_whosale       String?
+  W_Type            String?
+  Tax_ID            String?   @map("Tax ID")
+  Current_YR        Float?    @map("Current YR")
+  Accum_Total_Sales Float?    @map("Accum Total Sales")
+  Add_l_Info        String?   @map("Add'l Info")
+  Last_Invoice_Date DateTime? @map("Last Invoice Date")
+  Fax               String?
+  Email             String?
+  Addr_2            String?   @map("Addr 2")
+  Mailing_List      Boolean?  @map("Mailing List")
+  isHidden          Boolean   @default(false)
+
+  @@index([Tax_ID], map: "Tax ID")
+}
+
+model clientlist {
+  id                Int      @id @default(autoincrement())
+  Client_Number     String?  @map("Client Number") @db.VarChar(6)
+  Company           String?  @db.VarChar(39)
+  Title             String?  @db.VarChar(10)
+  First_Name        String?  @map("First Name") @db.VarChar(14)
+  MI                String?  @db.VarChar(1)
+  Last_Name         String?  @map("Last Name") @db.VarChar(15)
+  Addr_1            String?  @map("Addr 1") @db.VarChar(33)
+  Addr_2            String?  @map("Addr 2") @db.VarChar(37)
+  City              String?  @db.VarChar(20)
+  State             String?  @db.VarChar(2)
+  Zip               String?  @db.VarChar(10)
+  AC                String?  @db.VarChar(3)
+  Phone             String?  @db.VarChar(8)
+  C_or_P            String?  @map("C or P") @db.VarChar(1)
+  Date_For_P        String?  @map("Date For P") @db.VarChar(4)
+  Ret_whosale       String?  @db.VarChar(1)
+  W_Type            String?  @db.VarChar(2)
+  Tax_ID            String?  @map("Tax ID") @db.VarChar(15)
+  Current_YR        String?  @map("Current YR") @db.VarChar(10)
+  Accum_Total_Sales Decimal? @map("Accum Total Sales") @db.Decimal(8, 2)
+  Salutation        String?  @db.VarChar(28)
+  Mailing_List      String?  @map("Mailing List") @db.VarChar(5)
+  Last_Invoice_Date String?  @map("Last Invoice Date") @db.VarChar(19)
+}
+
+model codes {
+  id   Int     @id @default(autoincrement())
+  code String?
+  item String?
+}
+
+model consignee {
+  id            Int     @id @default(autoincrement())
+  ConsigneeCode String?
+  Consignee     String?
+  hName         String?
+  Addr1         String?
+  Addr2         String?
+  City          String?
+  State         String?
+  Zip           String?
+  Phone         String?
+  Fax           String?
+}
+
+model consignmentitems_temp {
+  id                      Int     @id @default(autoincrement())
+  Yr                      Int?    @db.SmallInt
+  Mo                      Int?    @db.TinyInt
+  Piece_number            Int?    @map("Piece number") @db.SmallInt
+  Type                    Int?    @db.TinyInt
+  A_or_B                  String? @map("A or B") @db.VarChar(1)
+  cntr                    Int?    @db.MediumInt
+  Description             String? @db.VarChar(13)
+  Date_sold               String? @map("Date sold") @db.VarChar(0)
+  Cost_in_FF              String? @map("Cost in FF") @db.VarChar(0)
+  CostInEuro              Int?    @db.TinyInt
+  Repairs                 String? @db.VarChar(0)
+  Landing_cost            Int?    @map("Landing cost") @db.TinyInt
+  Sug_Retail_price        Int?    @map("Sug Retail price") @db.TinyInt
+  Designer_Net_price      Int?    @map("Designer Net price") @db.TinyInt
+  Invoice_number          String? @map("Invoice number") @db.VarChar(0)
+  Sale_price              String? @map("Sale price") @db.VarChar(0)
+  Client_number           String? @map("Client number") @db.VarChar(0)
+  Taxable_item            String? @map("Taxable item") @db.VarChar(0)
+  Consignment             String? @db.VarChar(4)
+  Added_To_Client         String? @map("Added To Client") @db.VarChar(0)
+  Date_Returned           String? @map("Date Returned") @db.VarChar(0)
+  Returned_Switch         String? @map("Returned Switch") @db.VarChar(0)
+  INVENTRY_ConsigneeCode  String? @db.VarChar(2)
+  INVENTRY_Consignee      String? @db.VarChar(0)
+  ConsignDate             String? @db.VarChar(0)
+  ConsignValue            Int?    @db.TinyInt
+  Consignee_ConsigneeCode String? @db.VarChar(2)
+  Consignee_Consignee     String? @db.VarChar(12)
+  hName                   String? @db.VarChar(0)
+  Addr1                   String? @db.VarChar(0)
+  Addr2                   String? @db.VarChar(0)
+  City                    String? @db.VarChar(0)
+  State                   String? @db.VarChar(0)
+  Zip                     String? @db.VarChar(0)
+  Phone                   String? @db.VarChar(0)
+  Fax                     String? @db.VarChar(0)
+}
+
+model conversionerrors {
+  id                Int     @id @default(autoincrement())
+  Object_Type       String? @map("Object Type")
+  Object_Name       String? @map("Object Name")
+  Error_Description String? @map("Error Description")
+}
+
+model costcont {
+  id                Int     @id @default(autoincrement())
+  Mo                Int?
+  Yr                String?
+  Container_Number  String? @map("Container Number")
+  Francs_to_Dollars Float?  @map("Francs to Dollars")
+}
+
+model deposit {
+  id       Int       @id @default(autoincrement())
+  Dep_Date DateTime?
+  cntr     Int?
+  Dep_Num  Int?      @map("Dep Num")
+  DepFr    String?
+  Amt      Float?
+  InvNum   Float?
+  Client   String?
+  Descr    String?
+}
+
+model deposit_copy {
+  id       Int       @id @default(autoincrement())
+  Date     DateTime?
+  cntr     Int?
+  Dep_Num  Int?      @map("Dep Num")
+  DepFr1   String?
+  Amt1     Float?
+  InvNum1  Float?
+  Client1  String?
+  Descr1   String?
+  DepFr2   String?
+  Amt2     Float?
+  InvNum2  Float?
+  Client2  String?
+  Descr2   String?
+  DepFr3   String?
+  Amt3     Float?
+  InvNum3  Float?
+  Client3  String?
+  Descr3   String?
+  DepFr4   String?
+  Amt4     Float?
+  InvNum4  Float?
+  Client4  String?
+  Descr4   String?
+  DepFr5   String?
+  Amt5     Float?
+  InvNum5  Float?
+  Client5  String?
+  Descr5   String?
+  DepFr6   String?
+  Amt6     Float?
+  InvNum6  Float?
+  Client6  String?
+  Descr6   String?
+  DepFr7   String?
+  Amt7     Float?
+  InvNum7  Float?
+  Client7  String?
+  Descr7   String?
+  DepFr8   String?
+  Amt8     Float?
+  InvNum8  Float?
+  Client8  String?
+  Descr8   String?
+  DepFr9   String?
+  Amt9     Float?
+  InvNum9  Float?
+  Client9  String?
+  Descr9   String?
+  DepFr10  String?
+  Amt10    Float?
+  InvNum10 Float?
+  Client10 String?
+  Descr10  String?
+}
+
+model deposit_date {
+  id       Int       @id @default(autoincrement())
+  Dep_Date DateTime?
+}
+
+model deposit_individual {
+  id      Int       @id @default(autoincrement())
+  Date    DateTime?
+  cntr    Int?
+  Dep_Num Int?      @map("Dep Num")
+  DepFr1  String?
+  Amt1    Float?
+  InvNum1 Float?
+  Client1 String?
+  Descr1  String?
+}
+
+model depositprint_temp {
+  id       Int      @id @default(autoincrement())
+  Dep_Date String?  @db.VarChar(19)
+  cntr     Int?     @db.SmallInt
+  Dep_Num  String?  @map("Dep Num") @db.VarChar(0)
+  DepFr    String?  @db.VarChar(19)
+  Amt      Decimal? @db.Decimal(7, 2)
+  InvNum   String?  @db.VarChar(5)
+  Client   String?  @db.VarChar(6)
+  Descr    String?  @db.VarChar(0)
+  BegD     String?  @db.VarChar(18)
+  EndD     String?  @db.VarChar(18)
+}
+
+model dummy {
+  id                  Int       @id @default(autoincrement())
+  Yr                  String?
+  Mo                  Int?
+  Piece_number        String?   @map("Piece number")
+  A_or_B              String?   @map("A or B")
+  Description         String?
+  Cost_in_FF          Float?    @map("Cost in FF")
+  CostInEuro          Float?
+  Repairs             Float?
+  Landing_cost        Float?    @map("Landing cost")
+  Sug_Retail_price    Float?    @map("Sug Retail price")
+  Actual_Retail_Price Float?    @map("Actual Retail Price")
+  Designer_Net_price  Float?    @map("Designer Net price")
+  Invoice_number      Float?    @map("Invoice number")
+  Date_sold           DateTime? @map("Date sold")
+  Client_number       String?   @map("Client number")
+  Sale_price          Float?    @map("Sale price")
+  Taxable_item        String?   @map("Taxable item")
+}
+
+model exchange {
+  id                      Int     @id @default(autoincrement())
+  Yr                      String?
+  Mo                      Int?
+  Exchange_Rate_In_Francs Float?  @map("Exchange Rate In Francs")
+  Landing_Cost_Ratio      Float?  @map("Landing Cost Ratio")
+  isHidden                Boolean @default(false)
+}
+
+model expense {
+  id               Int       @id @default(autoincrement())
+  Account_Number   String?   @map("Account Number")
+  Transaction_Date DateTime? @map("Transaction Date")
+  Check_Number     String?   @map("Check Number")
+  Description      String?
+  Account_Name     String?   @map("Account Name")
+  Amount           Float?
+  Empl_Number      String?   @map("Empl Number")
+  isHidden         Boolean   @default(false)
+}
+
+model expreport_temp {
+  id               Int      @id @default(autoincrement())
+  Account_Number   String?  @map("Account Number") @db.VarChar(6)
+  Transaction_Date String?  @map("Transaction Date") @db.VarChar(19)
+  Check_Number     Int?     @map("Check Number") @db.MediumInt
+  Description      String?  @db.VarChar(13)
+  Account_Name     String?  @map("Account Name") @db.VarChar(23)
+  Amount           Decimal? @db.Decimal(7, 2)
+  Empl_Number      String?  @map("Empl Number") @db.VarChar(0)
+  Begd             String?  @db.VarChar(18)
+  endd             String?  @db.VarChar(18)
+}
+
+model exprpt {
+  id              Int       @id @default(autoincrement())
+  AccountNumber   String?
+  AccountName     String?
+  Amount          Float?
+  TransactionDate DateTime?
+  CheckNumber     Float?
+  Description     String?
+  BegDate         DateTime?
+  EndDate         DateTime?
+}
+
+model invdet {
+  id             Int     @id @default(autoincrement())
+  Invoice_Number String? @map("Invoice Number")
+  Stock_Number   String? @map("Stock Number")
+  Transaction    String?
+  Quantity       Float?
+  Code           String?
+  Description    String?
+  Desc2          String?
+  Amount         Float?
+}
+
+model inventry {
+  id                  Int       @id @default(autoincrement())
+  Yr                  String?
+  Mo                  Int?
+  Piece_number        Float?    @map("Piece number")
+  Type                Int?
+  A_or_B              String?   @map("A or B")
+  cntr                Int?
+  Description         String?
+  Date_sold           DateTime? @map("Date sold")
+  Cost_in_FF          Float?    @map("Cost in FF")
+  CostInEuro          Float?
+  Repairs             Float?
+  Landing_cost        Float?    @map("Landing cost")
+  Sug_Retail_price    Float?    @map("Sug Retail price")
+  Designer_Net_price  Float?    @map("Designer Net price")
+  Invoice_number      Float?    @map("Invoice number")
+  Sale_Price          Float?    @map("Sale Price")
+  Client_number       String?   @map("Client number")
+  Taxable_item        Float?    @map("Taxable item")
+  Consignment         Boolean?
+  Added_To_Client     String?   @map("Added To Client")
+  Date_Returned       DateTime? @map("Date Returned")
+  Returned_Switch     String?   @map("Returned Switch")
+  ConsigneeCode       String?
+  Consignee           String?
+  ConsignDate         DateTime?
+  ConsignValue        Float?
+  isHidden            Boolean   @default(false)
+  MoString            String?
+  PieceNumberString   String?
+  InvoiceNumberString String?
+}
+
+model invlist {
+  id                 Int      @id @default(autoincrement())
+  Yr                 Int?     @db.SmallInt
+  Mo                 Int?     @db.TinyInt
+  Piece_number       Int?     @map("Piece number") @db.SmallInt
+  Type               Int?     @db.TinyInt
+  A_or_B             String?  @map("A or B") @db.VarChar(1)
+  cntr               Int?     @db.MediumInt
+  Description        String?  @db.VarChar(22)
+  Date_sold          String?  @map("Date sold") @db.VarChar(0)
+  Cost_in_FF         String?  @map("Cost in FF") @db.VarChar(0)
+  CostInEuro         Int?     @db.SmallInt
+  Repairs            String?  @db.VarChar(0)
+  Landing_cost       Decimal? @map("Landing cost") @db.Decimal(5, 1)
+  Sug_Retail_price   Decimal? @map("Sug Retail price") @db.Decimal(6, 2)
+  Designer_Net_price Decimal? @map("Designer Net price") @db.Decimal(5, 1)
+  Invoice_number     String?  @map("Invoice number") @db.VarChar(0)
+  Sale_price         String?  @map("Sale price") @db.VarChar(0)
+  Client_number      String?  @map("Client number") @db.VarChar(0)
+  Taxable_item       String?  @map("Taxable item") @db.VarChar(0)
+  Consignment        String?  @db.VarChar(5)
+  Added_To_Client    String?  @map("Added To Client") @db.VarChar(0)
+  Date_Returned      String?  @map("Date Returned") @db.VarChar(0)
+  Returned_Switch    String?  @map("Returned Switch") @db.VarChar(0)
+  ConsigneeCode      String?  @db.VarChar(0)
+  Consignee          String?  @db.VarChar(0)
+  ConsignDate        String?  @db.VarChar(0)
+  ConsignValue       Int?     @db.TinyInt
+}
+
+model invmas {
+  id             Int       @id @default(autoincrement())
+  Invoice_Number String?   @map("Invoice Number")
+  Client_Number  String?   @map("Client Number")
+  Company        String?
+  First_Name     String?   @map("First Name")
+  MI             String?
+  Last_Name      String?   @map("Last Name")
+  Invoice_Date   DateTime? @map("Invoice Date")
+  Sales_Tax      Float?    @map("Sales Tax")
+}
+
+model invsol {
+  id                 Int       @id @default(autoincrement())
+  Yr                 String?
+  Mo                 Int?
+  Piece_number       Float?    @map("Piece number")
+  Type               Int?
+  A_or_B             String?   @map("A or B")
+  Description        String?
+  Cost_in_FF         Float?    @map("Cost in FF")
+  CostInEuro         Float?
+  Repairs            Float?
+  Landing_cost       Float?    @map("Landing cost")
+  Sug_Retail_price   Float?    @map("Sug Retail price")
+  Designer_Net_price Float?    @map("Designer Net price")
+  Date_sold          DateTime? @map("Date sold")
+  Invoice_number     Float?    @map("Invoice number")
+  Client_number      String?   @map("Client number")
+  Consignment        String?
+  Added_To_Client    String?   @map("Added To Client")
+  Sale_Price         Float?    @map("Sale Price")
+  Taxable_item       Float?    @map("Taxable item")
+}
+
+model invsold {
+  id                  Int       @id @default(autoincrement())
+  Yr                  String?
+  Mo                  Int?
+  Piece_number        Float?    @map("Piece number")
+  Type                Int?
+  A_or_B              String?   @map("A or B")
+  cntr                Int?
+  Description         String?
+  Cost_in_FF          Float?    @map("Cost in FF")
+  CostInEuro          Float?
+  Repairs             Float?
+  Landing_cost        Float?    @map("Landing cost")
+  Sug_Retail_price    Float?    @map("Sug Retail price")
+  Designer_Net_price  Float?    @map("Designer Net price")
+  Date_sold           DateTime? @map("Date sold")
+  Invoice_number      Float?    @map("Invoice number")
+  Client_number       String?   @map("Client number")
+  Consignment         Boolean?
+  Added_To_Client     String?   @map("Added To Client")
+  Date_Returned       DateTime? @map("Date Returned")
+  ConsigneeCode       String?
+  Consignee           String?
+  ConsignDate         DateTime?
+  ConsignValue        Float?
+  Sale_Price          Float?    @map("Sale Price")
+  Taxable_item        Float?    @map("Taxable item")
+  Returned_Switch     String?   @map("Returned Switch")
+  isHidden            Boolean   @default(false)
+  MoString            String?
+  PieceNumberString   String?
+  InvoiceNumberString String?
+
+  @@index([Yr, Mo], map: "CalcLanding")
+  @@index([Client_number], map: "INVSOLDClient Number")
+  @@index([ConsigneeCode, Consignment], map: "INVSOLD_ConsigneeCode_Consignment_idx")
+  @@index([ConsigneeCode], map: "INVSOLD_ConsigneeCode_idx")
+}
+
+model invsotmp {
+  id                 Int       @id @default(autoincrement())
+  Yr                 String?
+  Mo                 Int?
+  Piece_number       Float?    @map("Piece number")
+  Type               Int?
+  A_or_B             String?   @map("A or B")
+  Description        String?
+  Cost_in_FF         Float?    @map("Cost in FF")
+  CostInEuro         Float?
+  Repairs            Float?
+  Landing_cost       Float?    @map("Landing cost")
+  Sug_Retail_price   Float?    @map("Sug Retail price")
+  Designer_Net_price Float?    @map("Designer Net price")
+  Date_sold          DateTime? @map("Date sold")
+  Invoice_number     Float?    @map("Invoice number")
+  Client_number      String?   @map("Client number")
+  Consignment        Boolean?
+  Added_To_Client    String?   @map("Added To Client")
+  Date_Returned      DateTime? @map("Date Returned")
+  ConsigneeCode      String?
+  Consignee          String?
+  ConsignDate        DateTime?
+  ConsignValue       Float?
+  Sale_Price         Float?    @map("Sale Price")
+  Taxable_item       Float?    @map("Taxable item")
+  Returned_Switch    String?   @map("Returned Switch")
+
+  @@index([Yr, Mo], map: "CalcLanding")
+  @@index([Client_number], map: "INVSOTMPClient Number")
+  @@index([ConsigneeCode, Consignment], map: "INVSOTMP_ConsigneeCode_Consignment_idx")
+  @@index([ConsigneeCode], map: "INVSOTMP_ConsigneeCode_idx")
+}
+
+model monthly_deposit_totals {
+  id             Int     @id @default(autoincrement())
+  Mo             Int?
+  Yr             String?
+  Total_Deposits Float?  @map("Total Deposits")
+  Total_Amount   Float?  @map("Total Amount")
+}
+
+model nm_temp {
+  id                Int     @id @default(autoincrement())
+  Client_Number     String? @map("Client Number") @db.VarChar(6)
+  Company           String? @db.VarChar(28)
+  Title             String? @db.VarChar(3)
+  First_Name        String? @map("First Name") @db.VarChar(9)
+  MI                String? @db.VarChar(1)
+  Last_Name         String? @map("Last Name") @db.VarChar(9)
+  Addr_1            String? @map("Addr 1") @db.VarChar(28)
+  Addr_2            String? @map("Addr 2") @db.VarChar(0)
+  City              String? @db.VarChar(11)
+  State             String? @db.VarChar(2)
+  Zip               Int?    @db.MediumInt
+  AC                Int?    @db.SmallInt
+  Phone             String? @db.VarChar(8)
+  C_or_P            String? @map("C or P") @db.VarChar(1)
+  Date_For_P        String? @map("Date For P") @db.VarChar(4)
+  Ret_whosale       String? @db.VarChar(1)
+  W_Type            String? @db.VarChar(2)
+  Tax_ID            String? @map("Tax ID") @db.VarChar(14)
+  Current_YR        String? @map("Current YR") @db.VarChar(0)
+  Accum_Total_Sales String? @map("Accum Total Sales") @db.VarChar(4)
+  Salutation        String? @db.VarChar(0)
+  Mailing_List      String? @map("Mailing List") @db.VarChar(5)
+  Last_Invoice_Date String? @map("Last Invoice Date") @db.VarChar(19)
+}
+
+model paste_errors {
+  id        Int     @id @default(autoincrement())
+  Date_sold String? @map("Date sold") @db.VarChar(0)
+
+  @@map("paste errors")
+}
+
+model pcs_monthly {
+  id          Int     @id @default(autoincrement())
+  Mo          Int?
+  Yr          String?
+  Total_Pcs   Int?    @map("Total Pcs")
+  Total_Stock Int?    @map("Total Stock")
+}
+
+model pcs_ytd {
+  id          Int     @id @default(autoincrement())
+  Yr          String?
+  Total_Pcs   Int?    @map("Total Pcs")
+  Total_Stock Int?    @map("Total Stock")
+}
+
+model salerpt {
+  id                  Int       @id @default(autoincrement())
+  Yr                  String?
+  Mo                  Int?
+  Piece_number        Float?    @map("Piece number")
+  Type                Int?
+  A_or_B              String?   @map("A or B")
+  Description         String?
+  Cost_in_FF          Float?    @map("Cost in FF")
+  CostInEuro          Float?
+  Repairs             Float?
+  Landing_cost        Float?    @map("Landing cost")
+  Sug_Retail_price    Float?    @map("Sug Retail price")
+  Actual_Retail_Price Float?    @map("Actual Retail Price")
+  Designer_Net_price  Float?    @map("Designer Net price")
+  Date_sold           DateTime? @map("Date sold")
+  Invoice_number      Float?    @map("Invoice number")
+  Sale_Price          Float?    @map("Sale Price")
+  Client_number       String?   @map("Client number")
+  Taxable_item        Float?    @map("Taxable item")
+  Beg_Date            DateTime? @map("Beg Date")
+  End_Date            DateTime? @map("End Date")
+  Added_To_Client     String?   @map("Added To Client")
+  Date_Returned       DateTime? @map("Date Returned")
+  Returned_Switch     String?   @map("Returned Switch")
+}
+
+model salesreport_temp {
+  id                 Int      @id @default(autoincrement())
+  Yr                 Int?     @db.SmallInt
+  Mo                 Int?     @db.TinyInt
+  Piece_number       Int?     @map("Piece number") @db.SmallInt
+  Type               Int?     @db.TinyInt
+  A_or_B             String?  @map("A or B") @db.VarChar(1)
+  cntr               Int?     @db.MediumInt
+  Description        String?  @db.VarChar(25)
+  Date_sold          String?  @map("Date sold") @db.VarChar(19)
+  Cost_in_FF         String?  @map("Cost in FF") @db.VarChar(0)
+  CostInEuro         String?  @db.VarChar(4)
+  Repairs            String?  @db.VarChar(0)
+  Landing_cost       Decimal? @map("Landing cost") @db.Decimal(5, 1)
+  Sug_Retail_price   Decimal? @map("Sug Retail price") @db.Decimal(7, 2)
+  Designer_Net_price Int?     @map("Designer Net price") @db.MediumInt
+  Invoice_number     Int?     @map("Invoice number") @db.MediumInt
+  Sale_price         Decimal? @map("Sale price") @db.Decimal(6, 2)
+  Client_number      String?  @map("Client number") @db.VarChar(6)
+  Taxable_item       String?  @map("Taxable item") @db.VarChar(6)
+  Consignment        String?  @db.VarChar(5)
+  Added_To_Client    String?  @map("Added To Client") @db.VarChar(0)
+  Date_Returned      String?  @map("Date Returned") @db.VarChar(0)
+  Returned_Switch    String?  @map("Returned Switch") @db.VarChar(0)
+  ConsigneeCode      String?  @db.VarChar(0)
+  Consignee          String?  @db.VarChar(0)
+  ConsignDate        String?  @db.VarChar(0)
+  ConsignValue       String?  @db.VarChar(1)
+  GrossProfit        Decimal? @db.Decimal(6, 2)
+  Title              String?  @db.VarChar(12)
+  BegD               String?  @db.VarChar(18)
+  EndD               String?  @db.VarChar(18)
+}
+
+model salestohistory_temp {
+  id                 Int      @id @default(autoincrement())
+  Yr                 Int?     @db.SmallInt
+  Mo                 Int?     @db.TinyInt
+  Piece_number       Int?     @map("Piece number") @db.SmallInt
+  Type               Int?     @db.TinyInt
+  A_or_B             String?  @map("A or B") @db.VarChar(1)
+  cntr               Int?     @db.MediumInt
+  Description        String?  @db.VarChar(25)
+  Cost_in_FF         String?  @map("Cost in FF") @db.VarChar(0)
+  CostInEuro         String?  @db.VarChar(4)
+  Repairs            String?  @db.VarChar(0)
+  Landing_cost       Int?     @map("Landing cost") @db.SmallInt
+  Sug_Retail_price   Decimal? @map("Sug Retail price") @db.Decimal(7, 2)
+  Designer_Net_price Int?     @map("Designer Net price") @db.MediumInt
+  Date_sold          String?  @map("Date sold") @db.VarChar(19)
+  Invoice_number     Int?     @map("Invoice number") @db.MediumInt
+  Sale_price         Decimal? @map("Sale price") @db.Decimal(7, 2)
+  Client_number      String?  @map("Client number") @db.VarChar(6)
+  Taxable_item       String?  @map("Taxable item") @db.VarChar(6)
+  Consignment        String?  @db.VarChar(5)
+  Added_To_Client    String?  @map("Added To Client") @db.VarChar(0)
+  Date_Returned      String?  @map("Date Returned") @db.VarChar(0)
+  Returned_Switch    String?  @map("Returned Switch") @db.VarChar(0)
+  ConsigneeCode      String?  @db.VarChar(0)
+  Consignee          String?  @db.VarChar(0)
+  ConsignDate        String?  @db.VarChar(0)
+  ConsignValue       String?  @db.VarChar(1)
+  GrossProfit        Decimal? @db.Decimal(6, 2)
+  Title              String?  @db.VarChar(21)
+  BegD               String?  @db.VarChar(18)
+  EndD               String?  @db.VarChar(18)
+}
+
+model savetest {
+  id                 Int       @id @default(autoincrement())
+  Yr                 String?
+  Mo                 Int?
+  Piece_number       Float?    @map("Piece number")
+  Type               Int?
+  A_or_B             String?   @map("A or B")
+  cntr               Int?
+  Description        String?
+  Cost_in_FF         Float?    @map("Cost in FF")
+  CostInEuro         Float?
+  Repairs            Float?
+  Landing_cost       Float?    @map("Landing cost")
+  Sug_Retail_price   Float?    @map("Sug Retail price")
+  Designer_Net_price Float?    @map("Designer Net price")
+  Date_sold          DateTime? @map("Date sold")
+  Invoice_number     Float?    @map("Invoice number")
+  Client_number      String?   @map("Client number")
+  Consignment        Boolean?
+  Added_To_Client    String?   @map("Added To Client")
+  Date_Returned      DateTime? @map("Date Returned")
+  ConsigneeCode      String?
+  Consignee          String?
+  ConsignDate        DateTime?
+  ConsignValue       Float?
+  Sale_Price         Float?    @map("Sale Price")
+  Taxable_item       Float?    @map("Taxable item")
+  Returned_Switch    String?   @map("Returned Switch")
+
+  @@index([Yr, Mo], map: "CalcLanding")
+  @@index([Client_number], map: "SAVETESTClient Number")
+  @@index([ConsigneeCode, Consignment], map: "SAVETEST_ConsigneeCode_Consignment_idx")
+  @@index([ConsigneeCode], map: "SAVETEST_ConsigneeCode_idx")
+}
+
+model temp {
+  id                Int     @id @default(autoincrement())
+  Client_number     String? @map("Client number")
+  Company           String?
+  Title             String?
+  First_Name        String? @map("First Name")
+  MI                String?
+  Last_Name         String? @map("Last Name")
+  Addr_1            String? @map("Addr 1")
+  Addr_2            String? @map("Addr 2")
+  City              String?
+  State             String?
+  Zip               String?
+  AC                String?
+  Phone             String?
+  Ret_whosale       String?
+  W_Type            String?
+  Tax_ID            String? @map("Tax ID")
+  Current_YR        Float?  @map("Current YR")
+  Accum_Total_Sales Float?  @map("Accum Total Sales")
+  Salutation        String?
+}
+
+model tempsal {
+  id                  Int       @id @default(autoincrement())
+  Yr                  String?
+  Mo                  Int?
+  Piece_number        Float?    @map("Piece number")
+  Type                Int?
+  A_or_B              String?   @map("A or B")
+  Description         String?
+  Cost_in_FF          Float?    @map("Cost in FF")
+  CostInEuro          Float?
+  Repairs             Float?
+  Landing_cost        Float?    @map("Landing cost")
+  Sug_Retail_price    Float?    @map("Sug Retail price")
+  Designer_Net_price  Float?    @map("Designer Net price")
+  Date_sold           DateTime? @map("Date sold")
+  Invoice_number      Float?    @map("Invoice number")
+  Sale_Price          Float?    @map("Sale Price")
+  Client_number       String?   @map("Client number")
+  Taxable_item        Float?    @map("Taxable item")
+  Beg_Date            DateTime? @map("Beg Date")
+  End_Date            DateTime? @map("End Date")
+  Added_To_Client     String?   @map("Added To Client")
+  Date_Returned       DateTime? @map("Date Returned")
+  Returned_Switch     String?   @map("Returned Switch")
+  Actual_Retail_Price Float?    @map("Actual Retail Price")
+}
+
+model testtbl {
+  id                Int       @id @default(autoincrement())
+  Client_number     String?   @map("Client number")
+  Company           String?
+  Title             String?
+  First_Name        String?   @map("First Name")
+  MI                String?
+  Last_Name         String?   @map("Last Name")
+  Addr_1            String?   @map("Addr 1")
+  Addr_2            String?   @map("Addr 2")
+  City              String?
+  State             String?
+  Zip               String?
+  AC                String?
+  Phone             String?
+  C_or_P            String?   @map("C or P")
+  Date_For_P        String?   @map("Date For P")
+  Ret_whosale       String?
+  W_Type            String?
+  Tax_ID            String?   @map("Tax ID")
+  Current_YR        Float?    @map("Current YR")
+  Accum_Total_Sales Float?    @map("Accum Total Sales")
+  Salutation        String?
+  Mailing_List      String?   @map("Mailing List")
+  Last_Invoice_Date DateTime? @map("Last Invoice Date")
+}
+
+model totals {
+  id               Int     @id @default(autoincrement())
+  Yr               String?
+  Mo               Int?
+  MonthEndPcs      Int?
+  MonthEndStock    Int?
+  TotYrToDatePcs   Int?
+  TotYrToDateStock Int?
 }
 
 model User {
@@ -74,31 +887,24 @@ model Verification {
 }
 
 model ClientMaster {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
-
-  // Client Information
-  clientNumber    String // Arbitrary calculation, Depends on either lastName or companyName
-  firstName       String?
-  lastName        String?
-  companyName     String?
-  taxId           String?
-  // Contact Information
-  phoneNumber     String? // Candidate for Int? change - Need to check how dashes are rendered
-  email           String?
-  // Location
-  address         String?
-  city            String?
-  state           String?
-  zipCode         String?
-  // Miscellanous
-  isMailingList   Boolean   @default(false)
-  lastInvoiceDate DateTime? @db.Date // Derived, References inventory_master and inventory_history
-  totalSales      Decimal   @default(0) @db.Decimal(12, 2) // Derived, Calculated with inventory_master and inventory_history
-
-  // Unused Fields 
+  id                Int       @id @default(autoincrement())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now())
+  deletedAt         DateTime?
+  clientNumber      String?
+  firstName         String?
+  lastName          String?
+  companyName       String?
+  taxId             String?
+  phoneNumber       String?
+  email             String?
+  address           String?
+  city              String?
+  state             String?
+  zipCode           String?
+  isMailingList     Boolean   @default(false)
+  lastInvoiceDate   DateTime? @db.Date
+  totalSales        Decimal   @default(0) @db.Decimal(12, 2)
   honorific         String?
   middleInitial     String?
   areaCode          Int?
@@ -123,38 +929,34 @@ model InventoryMaster {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
-  // Inventory Information
-  year                 Int // References exchange_rate value
-  shipmentNumber       Int // References exchange_rate value
-  pieceNumber          Int
+  year                 Int?
+  shipmentNumber       Int?
+  pieceNumber          Int?
   description          String?
   dollarCost           Decimal?  @db.Decimal(12, 2)
   euroCost             Decimal?  @db.Decimal(12, 2)
   repairCost           Decimal?  @db.Decimal(12, 2)
-  // Derived Fields
-  landedCost           Decimal?  @db.Decimal(12, 2) // Calculated with exchange_rate value, depends on either dollarCost or euroCost
-  suggestedRetailPrice Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on landedCost
-  designerNetPrice     Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on designerNetPrice
-  // Sold Information
-  clientNumber         String? // References client value - candidate for removal?
+  landedCost           Decimal?  @db.Decimal(12, 2)
+  suggestedRetailPrice Decimal?  @db.Decimal(12, 2)
+  designerNetPrice     Decimal?  @db.Decimal(12, 2)
+  clientNumber         String?
   dateSold             DateTime? @db.Date
   invoiceNumber        Int?
   priceSold            Decimal?  @db.Decimal(12, 2)
   taxCost              Decimal?  @db.Decimal(12, 2)
   isConsignment        Boolean   @default(false)
+  aOrB                 String?
+  counter              String?
+  frenchFrancsCost     String?
+  consignment          String?
+  addedToClient        String?
+  consignee            String?
+  consignCode          String?
+  consignDate          String?
+  consignValue         String?
 
-  // Unused Fields
-  aOrB             String?
-  cntr             String?
-  frenchFrancsCost String?
-  consignment      String?
-  addedToClient    String?
-  consignCode      String?
-  consignDate      String?
-  consignValue     String?
-
-  shipment       Shipment      @relation(fields: [shipmentId], references: [id])
-  shipmentId     Int
+  shipment       Shipment?     @relation(fields: [shipmentId], references: [id])
+  shipmentId     Int?
   clientMaster   ClientMaster? @relation(fields: [clientMasterId], references: [id])
   clientMasterId Int?
 
@@ -167,38 +969,34 @@ model InventoryHistory {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
-  // Inventory Information
-  year                 Int // References exchange_rate value
-  shipmentNumber       Int // References exchange_rate value
-  pieceNumber          Int
+  year                 Int?
+  shipmentNumber       Int?
+  pieceNumber          Int?
   description          String?
   dollarCost           Decimal?  @db.Decimal(12, 2)
   euroCost             Decimal?  @db.Decimal(12, 2)
   repairCost           Decimal?  @db.Decimal(12, 2)
-  // Derived Fields
-  landedCost           Decimal?  @db.Decimal(12, 2) // Calculated with exchange_rate value, depends on either dollarCost or euroCost
-  suggestedRetailPrice Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on landedCost
-  designerNetPrice     Decimal?  @db.Decimal(12, 2) // Arbitrary calculation, depends on designerNetPrice
-  // Sold Information
-  clientNumber         String? // References client value - candidate for removal?
+  landedCost           Decimal?  @db.Decimal(12, 2)
+  suggestedRetailPrice Decimal?  @db.Decimal(12, 2)
+  designerNetPrice     Decimal?  @db.Decimal(12, 2)
+  clientNumber         String?
   dateSold             DateTime? @db.Date
   invoiceNumber        Int?
   priceSold            Decimal?  @db.Decimal(12, 2)
   taxCost              Decimal?  @db.Decimal(12, 2)
   isConsignment        Boolean   @default(false)
+  aOrB                 String?
+  counter              String?
+  frenchFrancsCost     String?
+  consignment          String?
+  addedToClient        String?
+  consignee            String?
+  consignCode          String?
+  consignDate          String?
+  consignValue         String?
 
-  // Unused Fields
-  aOrB             String?
-  cntr             String?
-  frenchFrancsCost String?
-  consignment      String?
-  addedToClient    String?
-  consignCode      String?
-  consignDate      String?
-  consignValue     String?
-
-  shipment       Shipment      @relation(fields: [shipmentId], references: [id])
-  shipmentId     Int
+  shipment       Shipment?     @relation(fields: [shipmentId], references: [id])
+  shipmentId     Int?
   clientMaster   ClientMaster? @relation(fields: [clientMasterId], references: [id])
   clientMasterId Int?
 
@@ -206,18 +1004,16 @@ model InventoryHistory {
 }
 
 model Expenses {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
-
-  // Expense Information
+  id              Int       @id @default(autoincrement())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now())
+  deletedAt       DateTime?
   checkNumber     String?
   description     String?
   amount          Decimal?  @db.Decimal(12, 2)
   transactionDate DateTime? @db.Date
-  accountNumber   String? // References chartAccount value - Candidate for removal
-  accountName     String? // References chartAccount value - Candidate for removal
+  accountNumber   String?
+  accountName     String?
 
   chartAccount   ChartAccount? @relation(fields: [chartAccountId], references: [id], onDelete: Restrict, onUpdate: Cascade)
   chartAccountId Int?
@@ -231,10 +1027,10 @@ model Shipment {
   updatedAt DateTime  @default(now())
   deletedAt DateTime?
 
-  year            Int
-  shipmentNumber  Int
-  landedCostRatio Decimal  @db.Decimal(12, 4)
-  exchangeRate    Decimal? @db.Decimal(12, 4) // Candidate for removal - Client preference
+  year            Int?
+  shipmentNumber  Int?
+  landedCostRatio Decimal? @db.Decimal(12, 4)
+  exchangeRate    Decimal? @db.Decimal(12, 4)
 
   inventory_master  InventoryMaster[]
   inventory_history InventoryHistory[]
@@ -244,14 +1040,12 @@ model Shipment {
 }
 
 model ChartAccount {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
-
-  // ChartAccount Information
-  accountName   String
-  accountNumber String
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
+  deletedAt     DateTime?
+  accountName   String?
+  accountNumber String?
 
   expenses Expenses[]
 

@@ -22,9 +22,9 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="overflow-hidden">
         <AppNavbar user={session.user} />
-        <div className="flex flex-1 flex-col gap-4 p-4">
+        <div className="flex flex-1 flex-col gap-4 bg-gray-200 p-8">
           <Suspense fallback={<DashboardSkeleton />}>{children}</Suspense>
         </div>
       </SidebarInset>

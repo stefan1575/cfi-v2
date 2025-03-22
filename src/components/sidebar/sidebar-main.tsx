@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function SidebarContentGroup({
   title,
@@ -34,6 +35,8 @@ export function SidebarContentGroup({
     }[];
   }[];
 }) {
+  const pathname = usePathname();
+
   return (
     <SidebarGroup>
       {title && <SidebarGroupLabel>{title}</SidebarGroupLabel>}
@@ -48,7 +51,10 @@ export function SidebarContentGroup({
             >
               <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item.title}>
+                  <SidebarMenuButton
+                    className={`${item.url === pathname && "text-[#9F834F] hover:text-[#9F834F]"}`}
+                    tooltip={item.title}
+                  >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -71,7 +77,11 @@ export function SidebarContentGroup({
             </Collapsible>
           ) : (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} asChild>
+              <SidebarMenuButton
+                className={`${item.url === pathname && "text-[#9F834F] hover:text-[#9F834F]"}`}
+                tooltip={item.title}
+                asChild
+              >
                 <Link href={item.url}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

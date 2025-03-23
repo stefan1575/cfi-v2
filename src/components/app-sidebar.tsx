@@ -26,54 +26,54 @@ const data = {
   File_Maintenance: [
     {
       title: "Client Master",
-      url: "#",
+      url: "/dashboard/client-master",
       icon: UsersRound,
     },
     {
       title: "Inventory Master",
-      url: "#",
+      url: "/dashboard/inventory-master",
       icon: Folder,
     },
     {
       title: "Inventory History",
-      url: "#",
+      url: "/dashboard/inventory-history",
       icon: FolderClock,
     },
     {
       title: "Expenses",
-      url: "#",
+      url: "/dashboard/expenses",
       icon: HandCoins,
     },
     {
       title: "Exchange Rate",
-      url: "#",
+      url: "/dashboard/exchange-rate",
       icon: Scale,
     },
     {
       title: "Chart Account",
-      url: "#",
+      url: "/dashboard/chart-account",
       icon: Banknote,
     },
   ],
   Reports: [
     {
       title: "Expense Report",
-      url: "#",
+      url: "/dashboard/expense-report",
       icon: ClipboardMinus,
     },
     {
       title: "Inventory List",
-      url: "#",
+      url: "/dashboard/inventory-list",
       icon: ClipboardList,
     },
     {
       title: "Sales Report",
-      url: "#",
+      url: "/dashboard/sales-report",
       icon: ClipboardPlus,
     },
     {
       title: "Sales History Report",
-      url: "#",
+      url: "/dashboard/sales-history-report",
       icon: FileClock,
     },
   ],

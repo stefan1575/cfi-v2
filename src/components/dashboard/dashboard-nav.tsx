@@ -1,0 +1,47 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Plus, Sheet } from "lucide-react";
+import { ChangeEvent } from "react";
+
+type DashboardNavProps = {
+  addFn: () => void;
+  searchFn: (e: ChangeEvent<HTMLInputElement>) => void;
+  exportFn: () => void;
+};
+
+export function DashboardNav({ addFn, searchFn, exportFn }: DashboardNavProps) {
+  return (
+    <div className="flex space-x-4">
+      <Button
+        size="lg"
+        className="cursor-pointer bg-[#9F834F] hover:bg-[#BC9B5D]"
+        onClick={addFn}
+      >
+        <Plus />
+        Add New Record
+      </Button>
+      <Input
+        name="search"
+        onChange={searchFn}
+        placeholder="Search..."
+        className="flex h-10 grow bg-white py-3 font-bold text-[#929292]"
+      />
+      <Button
+        size="lg"
+        className="cursor-pointer bg-[#006039] hover:bg-green-800"
+        onClick={exportFn}
+      >
+        <Sheet />
+        Export to XLSX
+      </Button>
+      <Button
+        size="lg"
+        className="cursor-pointer bg-[#006039] hover:bg-green-800"
+        onClick={exportFn}
+      >
+        <Sheet />
+        Export to CSV
+      </Button>
+    </div>
+  );
+}

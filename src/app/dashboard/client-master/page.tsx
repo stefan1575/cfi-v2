@@ -1,21 +1,24 @@
 "use client";
 
 import { getClientMasterCount, getManyClientMaster } from "./server";
-import { clientMasterColumns } from "@/app/dashboard/client-master/columns";
+import { columns } from "@/app/dashboard/client-master/columns";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { DataTable } from "@/components/dashboard/data-table";
 import { PaginationControls } from "@/components/dashboard/pagination-controls";
 import { filterEndDate, filterStartDate } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-type T = Prisma.ClientMasterFindManyArgs;
+type T = Required<
+  Pick<
+    Prisma.ClientMasterFindManyArgs,
+    "skip" | "take" | "select" | "orderBy" | "where"
+  >
+>;
 
 export default function Page() {
-  // const [sorting, setSorting] = useState<SortingState>([]);
-
   const [findManyArgs, setFindManyArgs] = useState<T>({
     skip: 0,
     take: 50,
@@ -38,6 +41,7 @@ export default function Page() {
     orderBy: {
       clientNumber: "desc",
     },
+    where: {},
   });
 
   const { data, refetch } = useQuery({
@@ -147,10 +151,6 @@ export default function Page() {
     refetch();
   }
 
-  useEffect(() => {
-    console.log("hi");
-  }, []);
-
   function handleSort(column: string) {
     setFindManyArgs((prevState) => {
       // Check the current sort direction for this column
@@ -187,7 +187,7 @@ export default function Page() {
       <div className="relative overflow-x-auto">
         <DataTable
           data={data ?? []}
-          columns={clientMasterColumns}
+          columns={columns}
           handleSort={handleSort}
         />
 

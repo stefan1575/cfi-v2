@@ -14,7 +14,7 @@ import { ArrowUpDown, ChevronDown } from "lucide-react";
 
 const columnHelper = createColumnHelper<ClientMaster>();
 
-export const clientMasterColumns = [
+export const columns = [
   columnHelper.accessor("id", {
     header: () => <ArrowUpDown className="size-4 cursor-pointer" />,
     cell: () => {

@@ -19,14 +19,9 @@ interface DataTableProps<TData> {
   /* eslint-disable @typescript-eslint/no-explicit-any */
   columns: ColumnDef<TData, any>[];
   data: TData[];
-  handleSort: (column: string) => void;
 }
 
-export function DataTable<TData>({
-  columns,
-  data,
-  handleSort,
-}: DataTableProps<TData>) {
+export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const table = useReactTable({
     data,
     columns,
@@ -34,6 +29,7 @@ export function DataTable<TData>({
     manualSorting: true,
     manualFiltering: true,
     manualPagination: true,
+    autoResetPageIndex: true,
   });
 
   return (
@@ -43,11 +39,7 @@ export function DataTable<TData>({
           <TableRow key={headerGroup.id}>
             {headerGroup.headers.map((header) => {
               return (
-                <TableHead
-                  className="cursor-pointer"
-                  onClick={() => handleSort(header.column.id)}
-                  key={header.id}
-                >
+                <TableHead className="cursor-pointer" key={header.id}>
                   {header.isPlaceholder
                     ? null
                     : flexRender(

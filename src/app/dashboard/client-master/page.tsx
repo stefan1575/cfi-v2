@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader } from "../../../components/loader";
 import { getClientMasterCount, getManyClientMaster } from "./server";
 import { columns } from "@/app/dashboard/client-master/columns";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
@@ -19,9 +20,11 @@ type T = Required<
 >;
 
 export default function Page() {
+  const PAGE_SIZE = 50;
+
   const [findManyArgs, setFindManyArgs] = useState<T>({
     skip: 0,
-    take: 50,
+    take: PAGE_SIZE,
     select: {
       clientNumber: true,
       companyName: true,
@@ -44,15 +47,16 @@ export default function Page() {
     where: {},
   });
 
-  const { data, refetch } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["clientMaster", findManyArgs],
     queryFn: async () => await getManyClientMaster(findManyArgs),
-    placeholderData: keepPreviousData, // Enable swr
+    placeholderData: keepPreviousData,
   });
 
-  const { data: count } = useQuery({
-    queryKey: ["clientCount"],
+  const { data: count, isPending: isCountPending } = useQuery({
+    queryKey: ["clientCount", findManyArgs],
     queryFn: async () => await getClientMasterCount(),
+    placeholderData: keepPreviousData,
   });
 
   const debouncedSetSearchInput = useDebouncedCallback((value) => {
@@ -61,8 +65,6 @@ export default function Page() {
 
   function searchHandler(e: ChangeEvent<HTMLInputElement>) {
     debouncedSetSearchInput(e.target.value);
-
-    refetch();
   }
 
   function updateSearchArgs(searchInput: string) {
@@ -137,44 +139,32 @@ export default function Page() {
   function handleNextPage() {
     setFindManyArgs({
       ...findManyArgs,
-      skip: findManyArgs.skip! + 50,
+      skip: findManyArgs.skip + PAGE_SIZE,
     });
-    refetch();
   }
 
   function handlePrevPage() {
     setFindManyArgs({
       ...findManyArgs,
-      skip: findManyArgs.skip! - 50,
+      skip: findManyArgs.skip - PAGE_SIZE,
     });
-
-    refetch();
   }
 
-  function handleSort(column: string) {
-    setFindManyArgs((prevState) => {
-      // Check the current sort direction for this column
-      const currentDirection =
-        prevState.orderBy &&
-        typeof prevState.orderBy === "object" &&
-        !Array.isArray(prevState.orderBy) &&
-        column in prevState.orderBy
-          ? prevState.orderBy[column as keyof typeof prevState.orderBy]
-          : undefined;
+  function handleLastPage() {
+    const totalPages = Math.ceil(count! / PAGE_SIZE);
+    const lastPageSkip = (totalPages - 1) * PAGE_SIZE;
 
-      // Set the new direction based on current direction
-      const newDirection = currentDirection === "asc" ? "desc" : "asc";
-
-      return {
-        ...findManyArgs,
-        orderBy: {
-          [column]: newDirection,
-        },
-        skip: 0,
-      };
+    setFindManyArgs({
+      ...findManyArgs,
+      skip: lastPageSkip,
     });
+  }
 
-    refetch();
+  function handleFirstPage() {
+    setFindManyArgs({
+      ...findManyArgs,
+      skip: 0,
+    });
   }
 
   return (
@@ -184,20 +174,24 @@ export default function Page() {
         searchFn={searchHandler}
         exportFn={() => null}
       />
-      <div className="relative overflow-x-auto">
-        <DataTable
-          data={data ?? []}
-          columns={columns}
-          handleSort={handleSort}
-        />
-
+      {isPending ? (
+        <div>
+          <Loader />
+        </div>
+      ) : (
+        <DataTable data={data ?? []} columns={columns} />
+      )}
+      {!isCountPending && (
         <PaginationControls
+          pageSize={PAGE_SIZE}
           count={count!}
           skip={findManyArgs.skip!}
+          handleFirstPage={handleFirstPage}
+          handleLastPage={handleLastPage}
           handleNextPage={handleNextPage}
           handlePrevPage={handlePrevPage}
         />
-      </div>
+      )}
     </div>
   );
 }

@@ -29,11 +29,12 @@ export function PaginationControls({
   const totalPages = Math.ceil(count / pageSize);
 
   return (
-    <div className="space-around flex items-center justify-between">
-      <div className="text-muted-foreground text-sm">
+    <div className="flex w-full items-center justify-between">
+      <div className="text-muted-foreground flex-1 text-left text-sm">
         Showing {pageSize} of {count}
       </div>
-      <div className="flex space-x-2 py-4">
+
+      <div className="flex flex-grow-0 space-x-2 py-4">
         <Button
           variant="outline"
           size="icon"
@@ -71,7 +72,8 @@ export function PaginationControls({
           <ChevronsRight />
         </Button>
       </div>
-      <div className="text-muted-foreground text-sm">
+
+      <div className="text-muted-foreground flex-1 text-right text-sm">
         Page {currentPage} of {totalPages}
       </div>
     </div>

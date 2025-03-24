@@ -10,13 +10,13 @@ import { formatDate, numberWithCommas } from "@/lib/utils";
 import type { ClientMaster } from "@prisma/client";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
 import { createColumnHelper } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const columnHelper = createColumnHelper<ClientMaster>();
 
 export const columns = [
   columnHelper.accessor("id", {
-    header: () => <ArrowUpDown className="size-4 cursor-pointer" />,
+    header: () => "",
     cell: () => {
       return (
         <DropdownMenu>
@@ -35,10 +35,12 @@ export const columns = [
         </DropdownMenu>
       );
     },
+    enableSorting: false,
   }),
   columnHelper.accessor("clientNumber", {
     header: "Client Number",
     cell: (v) => v.getValue() ?? "",
+    enableSorting: true,
   }),
   columnHelper.accessor("companyName", {
     header: "Company Name",
@@ -50,14 +52,17 @@ export const columns = [
       const row = info.row.original;
       return `${row.firstName || ""} ${row.lastName || ""}`;
     },
+    enableSorting: true,
   }),
   columnHelper.accessor("email", {
     header: "Email Address",
     cell: (v) => v.getValue() ?? "",
+    enableSorting: true,
   }),
   columnHelper.accessor("phoneNumber", {
     header: "Phone Number",
     cell: (v) => v.getValue() ?? "",
+    enableSorting: true,
   }),
   columnHelper.accessor("address", {
     header: "Address",
@@ -71,10 +76,12 @@ export const columns = [
       ].filter(Boolean);
       return addressParts.join(", ");
     },
+    enableSorting: true,
   }),
   columnHelper.accessor("taxId", {
     header: "Tax Id",
     cell: (v) => v.getValue(),
+    enableSorting: true,
   }),
   columnHelper.accessor("isMailingList", {
     header: "Mailing List",
@@ -84,9 +91,11 @@ export const columns = [
   columnHelper.accessor("lastInvoiceDate", {
     header: "Last Invoice Date",
     cell: (v) => formatDate(v.getValue()),
+    enableSorting: true,
   }),
   columnHelper.accessor("totalSales", {
     header: "Total Sales",
     cell: (v) => `$ ${numberWithCommas(v.getValue())}`,
+    enableSorting: true,
   }),
 ];

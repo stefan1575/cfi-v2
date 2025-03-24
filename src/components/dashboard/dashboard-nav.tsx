@@ -1,24 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus, Sheet } from "lucide-react";
+import Link from "next/link";
 import { ChangeEvent } from "react";
 
 type DashboardNavProps = {
-  addFn: () => void;
+  href: string;
   searchFn: (e: ChangeEvent<HTMLInputElement>) => void;
   exportFn: () => void;
 };
 
-export function DashboardNav({ addFn, searchFn, exportFn }: DashboardNavProps) {
+export function DashboardNav({ href, searchFn, exportFn }: DashboardNavProps) {
   return (
     <div className="flex space-x-4">
       <Button
         size="lg"
         className="cursor-pointer bg-[#9F834F] hover:bg-[#BC9B5D]"
-        onClick={addFn}
+        asChild
       >
-        <Plus />
-        Add New Record
+        <Link href={href}>
+          <Plus />
+          Add New Record
+        </Link>
       </Button>
       <Input
         name="search"

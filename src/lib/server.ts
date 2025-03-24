@@ -24,3 +24,9 @@ export async function getClientMasterCount(params: FindManyWhere) {
 
   return data;
 }
+
+export async function createClientMaster(
+  input: Prisma.ClientMasterCreateInput,
+) {
+  await prisma.clientMaster.create({ data: input });
+}

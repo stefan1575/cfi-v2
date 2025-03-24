@@ -1,18 +1,18 @@
 "use client";
 
-import { Loader } from "../../../components/loader";
-import { getClientMasterCount, getManyClientMaster } from "./server";
 import { columns } from "@/app/dashboard/client-master/columns";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { DataTable } from "@/components/dashboard/data-table";
-import { PaginationControls } from "@/components/dashboard/pagination-controls";
+import { DashboardSkeleton } from "@/components/skeleton/dashboard-skeleton";
+import { getClientMasterCount, getManyClientMaster } from "@/lib/server";
 import { filterEndDate, filterStartDate } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { ChangeEvent, useState } from "react";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-type T = Required<
+type FindManyArgs = Required<
   Pick<
     Prisma.ClientMasterFindManyArgs,
     "skip" | "take" | "select" | "orderBy" | "where"
@@ -20,9 +20,9 @@ type T = Required<
 >;
 
 export default function Page() {
-  const PAGE_SIZE = 50;
+  const PAGE_SIZE = 10;
 
-  const [findManyArgs, setFindManyArgs] = useState<T>({
+  const [findManyArgs, setFindManyArgs] = useState<FindManyArgs>({
     skip: 0,
     take: PAGE_SIZE,
     select: {
@@ -53,21 +53,73 @@ export default function Page() {
     placeholderData: keepPreviousData,
   });
 
-  const { data: count, isPending: isCountPending } = useQuery({
-    queryKey: ["clientCount", findManyArgs],
-    queryFn: async () => await getClientMasterCount(),
+  const { data: count } = useQuery({
+    queryKey: ["clientCount", findManyArgs.where],
+    queryFn: async () =>
+      await getClientMasterCount({ where: findManyArgs.where }),
     placeholderData: keepPreviousData,
   });
 
-  const debouncedSetSearchInput = useDebouncedCallback((value) => {
-    updateSearchArgs(value);
-  }, 300);
+  const table = useReactTable({
+    data: data ?? [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    manualSorting: true,
+    manualFiltering: true,
+    manualPagination: true,
+    enableSortingRemoval: false,
+    rowCount: count,
+    state: {
+      pagination: {
+        pageIndex: Math.floor(findManyArgs.skip / PAGE_SIZE),
+        pageSize: findManyArgs.take,
+      },
+      // Tanstack Table sorting object shape - https://tanstack.com/table/v8/docs/guide/sorting#sorting-state
+      sorting: [
+        {
+          id: Object.keys(findManyArgs.orderBy)[0],
+          desc: Object.values(findManyArgs.orderBy)[0] === "desc",
+        },
+      ],
+      globalFilter: "",
+    },
+    onPaginationChange: (updater) => {
+      if (typeof updater === "function") {
+        const newPagination = updater(table.getState().pagination);
+        setFindManyArgs({
+          ...findManyArgs,
+          skip: newPagination.pageIndex * PAGE_SIZE,
+          take: newPagination.pageSize,
+        });
+      }
+    },
+    onSortingChange: (updater) => {
+      if (typeof updater === "function") {
+        const currentSorting = [
+          {
+            id: Object.keys(findManyArgs.orderBy)[0],
+            desc: Object.values(findManyArgs.orderBy)[0] === "desc",
+          },
+        ];
+        const newSorting = updater(currentSorting);
+        if (newSorting.length > 0) {
+          const sortColumn = newSorting[0].id;
+          const sortDirection = newSorting[0].desc ? "desc" : "asc";
 
-  function searchHandler(e: ChangeEvent<HTMLInputElement>) {
-    debouncedSetSearchInput(e.target.value);
-  }
+          setFindManyArgs({
+            ...findManyArgs,
+            orderBy: { [sortColumn]: sortDirection },
+          });
+        }
+      }
+    },
 
-  function updateSearchArgs(searchInput: string) {
+    onGlobalFilterChange: (value) => {
+      debouncedHandleSearch(value);
+    },
+  });
+
+  function handleSearch(searchInput: string) {
     const quotedWords = searchInput.match(/"([^"]+)"/g);
 
     if (quotedWords) {
@@ -136,61 +188,23 @@ export default function Page() {
     return;
   }
 
-  function handleNextPage() {
-    setFindManyArgs({
-      ...findManyArgs,
-      skip: findManyArgs.skip + PAGE_SIZE,
-    });
-  }
-
-  function handlePrevPage() {
-    setFindManyArgs({
-      ...findManyArgs,
-      skip: findManyArgs.skip - PAGE_SIZE,
-    });
-  }
-
-  function handleLastPage() {
-    const totalPages = Math.ceil(count! / PAGE_SIZE);
-    const lastPageSkip = (totalPages - 1) * PAGE_SIZE;
-
-    setFindManyArgs({
-      ...findManyArgs,
-      skip: lastPageSkip,
-    });
-  }
-
-  function handleFirstPage() {
-    setFindManyArgs({
-      ...findManyArgs,
-      skip: 0,
-    });
-  }
+  const debouncedHandleSearch = useDebouncedCallback((value) => {
+    handleSearch(value);
+  }, 300);
 
   return (
     <div className="space-y-4">
-      <DashboardNav
-        addFn={() => null}
-        searchFn={searchHandler}
-        exportFn={() => null}
-      />
       {isPending ? (
-        <div>
-          <Loader />
-        </div>
+        <DashboardSkeleton />
       ) : (
-        <DataTable data={data ?? []} columns={columns} />
-      )}
-      {!isCountPending && (
-        <PaginationControls
-          pageSize={PAGE_SIZE}
-          count={count!}
-          skip={findManyArgs.skip!}
-          handleFirstPage={handleFirstPage}
-          handleLastPage={handleLastPage}
-          handleNextPage={handleNextPage}
-          handlePrevPage={handlePrevPage}
-        />
+        <>
+          <DashboardNav
+            searchFn={(e) => table.setGlobalFilter(e.target.value)}
+            exportFn={() => null}
+            href="/dashboard/client-master/add"
+          />
+          <DataTable table={table} />
+        </>
       )}
     </div>
   );

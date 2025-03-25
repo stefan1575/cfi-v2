@@ -6,13 +6,47 @@ import { Prisma } from "@prisma/client";
 
 type FindMany = Prisma.ClientMasterFindManyArgs;
 
-export async function getManyClientMaster(params: FindMany) {
-  const data = await prisma.clientMaster.findMany(params).then((value) => {
-    value.map((items) => {
-      items.totalSales = convertToPlainObject(items.totalSales);
-    });
-    return value;
+export async function getClientMaster(id: number) {
+  const data = await prisma.clientMaster.findFirst({
+    where: {
+      id,
+      deletedAt: null,
+    },
+    select: {
+      id: true,
+      clientNumber: true,
+      companyName: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      phoneNumber: true,
+      address: true,
+      city: true,
+      state: true,
+      zipCode: true,
+      taxId: true,
+      isMailingList: true,
+    },
   });
+
+  return data;
+}
+
+export async function getManyClientMaster(params: FindMany) {
+  const data = await prisma.clientMaster
+    .findMany({
+      ...params,
+      where: {
+        ...params.where,
+        deletedAt: null,
+      },
+    })
+    .then((value) => {
+      value.map((items) => {
+        items.totalSales = convertToPlainObject(items.totalSales);
+      });
+      return value;
+    });
 
   return data;
 }
@@ -20,7 +54,13 @@ export async function getManyClientMaster(params: FindMany) {
 type FindManyWhere = Pick<Prisma.ClientMasterFindManyArgs, "where">;
 
 export async function getClientMasterCount(params: FindManyWhere) {
-  const data = await prisma.clientMaster.count(params);
+  const data = await prisma.clientMaster.count({
+    ...params,
+    where: {
+      ...params.where,
+      deletedAt: null,
+    },
+  });
 
   return data;
 }
@@ -41,7 +81,19 @@ export async function createClientMaster(
   });
 }
 
-export async function editClientMaster(input: Prisma.ClientMasterCreateInput) {
+export async function deleteClientMaster(id: number) {
+  await prisma.clientMaster.update({
+    where: { id },
+    data: {
+      clientNumber: "",
+      deletedAt: new Date().toISOString(),
+    },
+  });
+}
+
+export async function updateClientMaster(
+  input: Prisma.ClientMasterCreateInput,
+) {
   await prisma.clientMaster.create({
     data: input,
   });
@@ -60,7 +112,6 @@ async function generateClientNumber(values: {
   } else {
     throw new Error("Either Company or LastName must be provided");
   }
-  console.log({ letters });
 
   // Fetch existing client numbers starting with these letters
   const existingClients = await prisma.clientMaster.findMany({

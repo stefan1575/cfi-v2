@@ -26,6 +26,7 @@ export default function Page() {
     skip: 0,
     take: PAGE_SIZE,
     select: {
+      id: true,
       clientNumber: true,
       companyName: true,
       firstName: true,

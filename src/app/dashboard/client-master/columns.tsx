@@ -3,39 +3,26 @@
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
+  DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { deleteClientMaster } from "@/lib/server";
 import { formatDate, numberWithCommas } from "@/lib/utils";
 import type { ClientMaster } from "@prisma/client";
-import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 const columnHelper = createColumnHelper<ClientMaster>();
 
 export const columns = [
   columnHelper.accessor("id", {
     header: () => "",
-    cell: () => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger className="focus:outline-none">
-            <ChevronDown className="w-4 cursor-pointer rounded hover:stroke-stone-400" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="rounded-lg border bg-white px-2 py-0 shadow-md"
-          >
-            <DropdownMenuItem className="cursor-pointer">Edit</DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+    cell: (v) => {
+      return <ClientMasterActions data={v.row.original} />;
     },
-    // enableSorting: false,
   }),
   columnHelper.accessor("clientNumber", {
     header: "Client Number",
@@ -99,3 +86,43 @@ export const columns = [
     enableSorting: true,
   }),
 ];
+
+type ClientMasterActions = {
+  data: ClientMaster;
+};
+
+function ClientMasterActions({ data }: ClientMasterActions) {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: deleteClientMaster,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["clientMaster"] });
+    },
+    onError: (error) => {
+      console.error(error);
+    },
+  });
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="focus:outline-none">
+        <ChevronDown className="w-4 cursor-pointer rounded hover:stroke-stone-400" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="start"
+        className="rounded-lg border bg-white px-2 py-0 shadow-md"
+      >
+        <DropdownMenuItem className="cursor-pointer" asChild>
+          <Link href={`/dashboard/client-master/edit/${data.id}`}>Edit</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => mutate(data.id)}
+        >
+          Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}

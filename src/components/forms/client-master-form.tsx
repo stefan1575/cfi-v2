@@ -13,35 +13,37 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ClientMasterSchema } from "@/lib/schema";
-import { createClientMaster, editClientMaster } from "@/lib/server";
+import { createClientMaster, updateClientMaster } from "@/lib/server";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 type ClientMasterFormProps = {
   mode: "add" | "edit";
+  data?: FormFields;
 };
 
 type FormFields = z.infer<typeof ClientMasterSchema>;
 
-export function ClientMasterForm({ mode }: ClientMasterFormProps) {
+export function ClientMasterForm({ mode, data }: ClientMasterFormProps) {
   const form = useForm({
     resolver: zodResolver(ClientMasterSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      companyName: "",
-      address: "",
-      email: "",
-      city: "",
-      state: "",
-      zipCode: "",
-      phoneNumber: "",
-      taxId: "",
-      isMailingList: false,
+      firstName: data?.firstName ?? "",
+      lastName: data?.lastName ?? "",
+      companyName: data?.companyName ?? "",
+      address: data?.address ?? "",
+      email: data?.email ?? "",
+      city: data?.city ?? "",
+      state: data?.state ?? "",
+      zipCode: data?.zipCode ?? "",
+      phoneNumber: data?.phoneNumber ?? "",
+      taxId: data?.taxId ?? "",
+      isMailingList: data?.isMailingList ?? false,
     },
   });
 
@@ -49,7 +51,7 @@ export function ClientMasterForm({ mode }: ClientMasterFormProps) {
   const router = useRouter();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: mode === "add" ? createClientMaster : editClientMaster,
+    mutationFn: mode === "add" ? createClientMaster : updateClientMaster,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["clientMaster"] });
       router.push("/dashboard/client-master");
@@ -243,7 +245,10 @@ export function ClientMasterForm({ mode }: ClientMasterFormProps) {
           />
         </div>
 
-        <div className="pt-4">
+        <div className="flex justify-end">
+          <Button variant="destructive" className="mr-2 cursor-pointer" asChild>
+            <Link href="/dashboard/client-master">Go Back</Link>
+          </Button>
           {!isPending ? (
             <Button className="cursor-pointer" type="submit">
               Submit

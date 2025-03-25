@@ -92,7 +92,7 @@ SELECT
     ELSE 0
   END as `isConsignment`
 FROM
-  `inventry`;
+  `INVENTRY`;
 
 -- AlterTable
 ALTER TABLE

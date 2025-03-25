@@ -6,4 +6,4 @@ SELECT
     `Account Number` AS `accountNumber`,
     `Account Name` AS `accountName`
 FROM
-    `chrtacct`;
+    `CHRTACCT`;

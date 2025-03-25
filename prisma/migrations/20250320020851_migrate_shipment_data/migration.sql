@@ -14,4 +14,4 @@ SELECT
     `Landing Cost Ratio` AS `landedCostRatio`,
     `Exchange Rate In Francs` AS `exchangeRate`
 FROM
-    `exchange`;
+    `EXCHANGE`;

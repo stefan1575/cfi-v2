@@ -54,4 +54,4 @@ SELECT
     `Addr 2` as `address2`,
     `Mailing List` as `isMailingList`
 FROM
-    `client`;
+    `CLIENT`;

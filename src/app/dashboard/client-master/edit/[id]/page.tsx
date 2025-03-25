@@ -12,7 +12,7 @@ export default async function Page({
   return (
     <ClientMasterForm
       mode="edit"
-      data={{
+      defaultValues={{
         firstName: data?.firstName ?? "",
         lastName: data?.lastName ?? "",
         companyName: data?.companyName ?? "",
@@ -25,6 +25,7 @@ export default async function Page({
         taxId: data?.taxId ?? "",
         isMailingList: data?.isMailingList ?? false,
       }}
+      id={Number(id)}
     />
   );
 }

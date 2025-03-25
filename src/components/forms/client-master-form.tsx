@@ -24,34 +24,35 @@ import { z } from "zod";
 
 type ClientMasterFormProps = {
   mode: "add" | "edit";
-  data?: FormFields;
+  defaultValues: FormFields;
+  id?: number;
 };
 
 type FormFields = z.infer<typeof ClientMasterSchema>;
 
-export function ClientMasterForm({ mode, data }: ClientMasterFormProps) {
+export function ClientMasterForm({
+  mode,
+  defaultValues,
+  id,
+}: ClientMasterFormProps) {
   const form = useForm({
     resolver: zodResolver(ClientMasterSchema),
-    defaultValues: {
-      firstName: data?.firstName ?? "",
-      lastName: data?.lastName ?? "",
-      companyName: data?.companyName ?? "",
-      address: data?.address ?? "",
-      email: data?.email ?? "",
-      city: data?.city ?? "",
-      state: data?.state ?? "",
-      zipCode: data?.zipCode ?? "",
-      phoneNumber: data?.phoneNumber ?? "",
-      taxId: data?.taxId ?? "",
-      isMailingList: data?.isMailingList ?? false,
-    },
+    defaultValues,
   });
 
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: mode === "add" ? createClientMaster : updateClientMaster,
+  const { mutate: create, isPending: isPendingCreate } = useMutation({
+    mutationFn: createClientMaster,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["clientMaster"] });
+      router.push("/dashboard/client-master");
+    },
+  });
+
+  const { mutate: update, isPending: isPendingUpdate } = useMutation({
+    mutationFn: updateClientMaster,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["clientMaster"] });
       router.push("/dashboard/client-master");
@@ -59,7 +60,14 @@ export function ClientMasterForm({ mode, data }: ClientMasterFormProps) {
   });
 
   const onSubmit: SubmitHandler<FormFields> = async (values) => {
-    mutate(values);
+    if (mode === "add") {
+      create(values);
+    } else {
+      update({
+        where: { id },
+        data: values,
+      });
+    }
   };
 
   return (
@@ -249,7 +257,7 @@ export function ClientMasterForm({ mode, data }: ClientMasterFormProps) {
           <Button variant="destructive" className="mr-2 cursor-pointer" asChild>
             <Link href="/dashboard/client-master">Go Back</Link>
           </Button>
-          {!isPending ? (
+          {!isPendingCreate || !isPendingUpdate ? (
             <Button className="cursor-pointer" type="submit">
               Submit
             </Button>

@@ -92,10 +92,11 @@ export async function deleteClientMaster(id: number) {
 }
 
 export async function updateClientMaster(
-  input: Prisma.ClientMasterCreateInput,
+  params: Prisma.ClientMasterUpdateArgs,
 ) {
-  await prisma.clientMaster.create({
-    data: input,
+  await prisma.clientMaster.update({
+    where: params.where,
+    data: params.data,
   });
 }
 

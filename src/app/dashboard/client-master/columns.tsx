@@ -35,7 +35,7 @@ export const columns = [
         </DropdownMenu>
       );
     },
-    enableSorting: false,
+    // enableSorting: false,
   }),
   columnHelper.accessor("clientNumber", {
     header: "Client Number",

@@ -20,13 +20,12 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <div className="bg-muted relative hidden lg:block">
+      <div className="bg-muted relative hidden h-screen w-full lg:block">
         <Image
-          src="/placeholder.svg"
+          src="https://cl0avqtjow.ufs.sh/f/Pb8WreYSaAY1umVlLx8RKsge9QTowFkavmGPzqDMZIptxYHN"
           alt="Image"
           fill
           unoptimized
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
     </div>

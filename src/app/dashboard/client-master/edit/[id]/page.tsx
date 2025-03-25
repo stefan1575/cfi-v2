@@ -1,8 +1,13 @@
 import { ClientMasterForm } from "@/components/forms/client-master-form";
 import { getClientMaster } from "@/lib/server";
 
-export default async function Page({ params }: { params: { id: string } }) {
-  const data = await getClientMaster(Number(params.id));
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const data = await getClientMaster(Number(id));
 
   return (
     <ClientMasterForm

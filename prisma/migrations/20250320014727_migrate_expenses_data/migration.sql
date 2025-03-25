@@ -1,7 +1,8 @@
 -- expenses
 INSERT INTO
     `expenses` (
-        `id` `accountNumber`,
+        `id`,
+        `accountNumber`,
         `transactionDate`,
         `checkNumber`,
         `description`,

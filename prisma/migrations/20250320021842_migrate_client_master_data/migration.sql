@@ -1,7 +1,8 @@
 -- client_master
 INSERT INTO
     `client_master` (
-        `id` `clientNumber`,
+        `id`,
+        `clientNumber`,
         `companyName`,
         `honorific`,
         `firstName`,

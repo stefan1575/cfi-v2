@@ -1,8 +1,8 @@
-import { LoginForm } from "@/components/forms/login-form";
-import { Logo } from "@/components/logo";
+import { LoginForm } from "@/features/authentication/components/login-form";
+import { Logo } from "@/shared/components/logo";
 import Image from "next/image";
 
-export default function Page() {
+export default function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

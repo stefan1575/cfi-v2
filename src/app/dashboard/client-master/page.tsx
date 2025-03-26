@@ -1,11 +1,10 @@
 "use client";
 
-import { columns } from "@/app/dashboard/client-master/columns";
-import { DashboardNav } from "@/components/dashboard/dashboard-nav";
-import { DataTable } from "@/components/dashboard/data-table";
-import { DashboardSkeleton } from "@/components/skeleton/dashboard-skeleton";
-import { getClientMasterCount, getManyClientMaster } from "@/lib/server";
-import { filterEndDate, filterStartDate } from "@/lib/utils";
+import { columns } from "@/features/client-master/components/columns";
+import { getClientMasterCount } from "@/features/client-master/queries/getClientMasterCount";
+import { getManyClientMaster } from "@/features/client-master/queries/getManyClientMaster";
+import { DataTable } from "@/shared/components/data-table";
+import { filterEndDate, filterStartDate } from "@/shared/lib/utils";
 import { Prisma } from "@prisma/client";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
@@ -48,7 +47,7 @@ export default function Page() {
     where: {},
   });
 
-  const { data, isPending } = useQuery({
+  const { data } = useQuery({
     queryKey: ["clientMaster", findManyArgs],
     queryFn: async () => await getManyClientMaster(findManyArgs),
     placeholderData: keepPreviousData,
@@ -195,18 +194,7 @@ export default function Page() {
 
   return (
     <div className="space-y-4">
-      {isPending ? (
-        <DashboardSkeleton />
-      ) : (
-        <>
-          <DashboardNav
-            searchFn={(e) => table.setGlobalFilter(e.target.value)}
-            exportFn={() => null}
-            href="/dashboard/client-master/add"
-          />
-          <DataTable table={table} />
-        </>
-      )}
+      <DataTable href="/dashboard/client-master/add" table={table} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import type { auth } from "@/lib/auth";
+import type { auth } from "@/shared/lib/auth";
 import { betterFetch } from "@better-fetch/fetch";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // Redirect authenticated users away from public routes
-  if (session && (pathname === "/" || pathname === "/admin/signup")) {
+  if (session && (pathname === "/" || pathname === "/signup")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -33,5 +33,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/admin/signup", "/dashboard", "/dashboard/:path*"], // Apply middleware to specific routes
+  matcher: ["/", "/signup", "/dashboard", "/dashboard/:path*"], // Apply middleware to specific routes
 };

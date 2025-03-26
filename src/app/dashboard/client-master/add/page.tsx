@@ -1,4 +1,4 @@
-import { ClientMasterForm } from "@/components/forms/client-master-form";
+import { ClientMasterForm } from "@/features/client-master/components/client-master-form";
 
 export default function Page() {
   return (

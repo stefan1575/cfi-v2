@@ -1,5 +1,5 @@
-import { ClientMasterForm } from "@/components/forms/client-master-form";
-import { getClientMaster } from "@/lib/server";
+import { ClientMasterForm } from "@/features/client-master/components/client-master-form";
+import { getClientMaster } from "@/features/client-master/queries/getClientMaster";
 
 export default async function Page({
   params,

@@ -1,8 +1,9 @@
-import { AppNavbar } from "@/components/app-navbar";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { auth } from "@/lib/auth";
+import { AppNavbar } from "@/features/dashboard/components/app-navbar";
+import { AppSidebar } from "@/features/dashboard/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/shared/components/ui/sidebar";
+import { auth } from "@/shared/lib/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
@@ -14,7 +15,7 @@ export default async function DashboardLayout({
   });
 
   if (!session) {
-    throw Error("No Session in /dashboard/layout.tsx");
+    redirect("/");
   }
 
   return (

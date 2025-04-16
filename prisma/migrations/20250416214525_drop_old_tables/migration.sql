@@ -40,7 +40,6 @@
   - You are about to drop the `tempsal` table. If the table is not empty, all the data it contains will be lost.
   - You are about to drop the `testtbl` table. If the table is not empty, all the data it contains will be lost.
   - You are about to drop the `totals` table. If the table is not empty, all the data it contains will be lost.
-
 */
 -- AlterTable
 ALTER TABLE `client_master` MODIFY `areaCode` VARCHAR(191) NULL;
@@ -62,118 +61,118 @@ ALTER TABLE `shipment` MODIFY `year` VARCHAR(191) NULL,
     MODIFY `shipmentNumber` VARCHAR(191) NULL;
 
 -- DropTable
-DROP TABLE `az_temp`;
+DROP TABLE `AZ_Temp`;
 
 -- DropTable
-DROP TABLE `chrtacct`;
+DROP TABLE `CHRTACCT`;
 
 -- DropTable
-DROP TABLE `client`;
+DROP TABLE `CLIENT`;
 
 -- DropTable
-DROP TABLE `clientlist`;
+DROP TABLE `ClientList`;
 
 -- DropTable
-DROP TABLE `codes`;
+DROP TABLE `CODES`;
 
 -- DropTable
-DROP TABLE `consignee`;
+DROP TABLE `Consignee`;
 
 -- DropTable
-DROP TABLE `consignmentitems_temp`;
+DROP TABLE `ConsignmentItems_temp`;
 
 -- DropTable
-DROP TABLE `conversionerrors`;
+DROP TABLE `ConversionErrors`;
 
 -- DropTable
-DROP TABLE `costcont`;
+DROP TABLE `COSTCONT`;
 
 -- DropTable
-DROP TABLE `deposit`;
+DROP TABLE `DEPOSIT`;
 
 -- DropTable
-DROP TABLE `deposit_copy`;
+DROP TABLE `DEPOSIT_copy`;
 
 -- DropTable
-DROP TABLE `deposit_date`;
+DROP TABLE `Deposit_Date`;
 
 -- DropTable
-DROP TABLE `deposit_individual`;
+DROP TABLE `DEPOSIT_Individual`;
 
 -- DropTable
-DROP TABLE `depositprint_temp`;
+DROP TABLE `DepositPrint_temp`;
 
 -- DropTable
-DROP TABLE `dummy`;
+DROP TABLE `DUMMY`;
 
 -- DropTable
-DROP TABLE `exchange`;
+DROP TABLE `EXCHANGE`;
 
 -- DropTable
 DROP TABLE `expense`;
 
 -- DropTable
-DROP TABLE `expreport_temp`;
+DROP TABLE `ExpReport_temp`;
 
 -- DropTable
-DROP TABLE `exprpt`;
+DROP TABLE `EXPRPT`;
 
 -- DropTable
-DROP TABLE `invdet`;
+DROP TABLE `INVDET`;
 
 -- DropTable
-DROP TABLE `inventry`;
+DROP TABLE `INVENTRY`;
 
 -- DropTable
-DROP TABLE `invlist`;
+DROP TABLE `InvList`;
 
 -- DropTable
-DROP TABLE `invmas`;
+DROP TABLE `INVMAS`;
 
 -- DropTable
-DROP TABLE `invsol`;
+DROP TABLE `INVSOL`;
 
 -- DropTable
-DROP TABLE `invsold`;
+DROP TABLE `INVSOLD`;
 
 -- DropTable
-DROP TABLE `invsotmp`;
+DROP TABLE `INVSOTMP`;
 
 -- DropTable
-DROP TABLE `monthly_deposit_totals`;
+DROP TABLE `MONTHLY_DEPOSIT_TOTALS`;
 
 -- DropTable
-DROP TABLE `nm_temp`;
+DROP TABLE `NM_temp`;
 
 -- DropTable
-DROP TABLE `paste errors`;
+DROP TABLE `Paste Errors`;
 
 -- DropTable
-DROP TABLE `pcs_monthly`;
+DROP TABLE `PCS_MONTHLY`;
 
 -- DropTable
-DROP TABLE `pcs_ytd`;
+DROP TABLE `PCS_YTD`;
 
 -- DropTable
-DROP TABLE `salerpt`;
+DROP TABLE `SALERPT`;
 
 -- DropTable
-DROP TABLE `salesreport_temp`;
+DROP TABLE `SalesReport_temp`;
 
 -- DropTable
-DROP TABLE `salestohistory_temp`;
+DROP TABLE `SalesToHistory_temp`;
 
 -- DropTable
-DROP TABLE `savetest`;
+DROP TABLE `SAVETEST`;
 
 -- DropTable
-DROP TABLE `temp`;
+DROP TABLE `TEMP`;
 
 -- DropTable
-DROP TABLE `tempsal`;
+DROP TABLE `TEMPSAL`;
 
 -- DropTable
-DROP TABLE `testtbl`;
+DROP TABLE `TESTTBL`;
 
 -- DropTable
-DROP TABLE `totals`;
+DROP TABLE `TOTALS`;

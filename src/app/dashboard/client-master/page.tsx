@@ -54,7 +54,7 @@ export default function Page() {
   });
 
   const { data: count } = useQuery({
-    queryKey: ["clientCount", findManyArgs.where],
+    queryKey: ["clientMasterCount", findManyArgs.where],
     queryFn: async () =>
       await getClientMasterCount({ where: findManyArgs.where }),
     placeholderData: keepPreviousData,

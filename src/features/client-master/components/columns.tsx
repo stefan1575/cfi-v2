@@ -34,11 +34,13 @@ export const columns = [
     cell: (v) => v.getValue() ?? "",
   }),
   columnHelper.accessor("firstName", {
-    header: "Full Name",
-    cell: (info) => {
-      const row = info.row.original;
-      return `${row.firstName || ""} ${row.lastName || ""}`;
-    },
+    header: "First Name",
+    cell: (v) => v.getValue() ?? "",
+    enableSorting: true,
+  }),
+  columnHelper.accessor("lastName", {
+    header: "Last Name",
+    cell: (v) => v.getValue() ?? "",
     enableSorting: true,
   }),
   columnHelper.accessor("email", {

@@ -85,7 +85,7 @@ export function DataTable<TData>({ table, href }: DataTableProps<TData>) {
                         : undefined
                     }
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 font-semibold">
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext(),

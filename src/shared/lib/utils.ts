@@ -53,11 +53,11 @@ function isValidDate(year: number, month: number, day: number): boolean {
 
 /**
  * Checks whether the given string matches the M/D/YYYY format.
- * Meant to be used in the `gt` property of a date.
+ * Meant to be used in the `gt` property of a date inside a Prisma whereInput object.
  *
  * @returns the given str converted to a date or undefined
  */
-export const filterStartDate = (str: string) => {
+export function filterStartDate(str: string) {
   // Regular expression to match both "MM/DD/YYYY" and "M/D/YYYY" formats
   const dateRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
   const match = str.match(dateRegex);
@@ -68,15 +68,15 @@ export const filterStartDate = (str: string) => {
 
   const date = new Date(year, month - 1, day - 1);
   return date;
-};
+}
 
 /**
  * Checks whether the given string matches the M/D/YYYY format.
- * Meant to be used in the `lt` property of a date.
+ * Meant to be used in the `lt` property of a date inside a Prisma whereInput object.
  *
  * @returns the given str converted to a date or undefined
  */
-export const filterEndDate = (str: string) => {
+export function filterEndDate(str: string) {
   // Regular expression to match both "MM/DD/YYYY" and "M/D/YYYY" formats
   const dateRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
   const match = str.match(dateRegex);
@@ -87,4 +87,4 @@ export const filterEndDate = (str: string) => {
 
   const date = new Date(year, month - 1, day - 1);
   return date;
-};
+}

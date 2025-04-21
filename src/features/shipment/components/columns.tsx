@@ -68,7 +68,7 @@ function ShipmentActions({ data }: ShipmentActionsProps) {
         className="rounded-lg border bg-white px-2 py-0 shadow-md"
       >
         <DropdownMenuItem className="cursor-pointer" asChild>
-          <Link href={`/dashboard/client-master/edit/${data.id}`}>Edit</Link>
+          <Link href={`/dashboard/shipment/edit/${data.id}`}>Edit</Link>
         </DropdownMenuItem>
         <DropdownMenuItem
           className="cursor-pointer"

@@ -15,6 +15,7 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { Separator } from "@/shared/components/ui/separator";
+import { FormProps } from "@/shared/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -23,13 +24,8 @@ import { useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type ClientMasterFormProps = {
-  mode: "add" | "edit";
-  defaultValues: FormFields;
-  id?: number;
-};
-
-type FormFields = z.infer<typeof ClientMasterSchema>;
+type ClientMasterFormFields = z.infer<typeof ClientMasterSchema>;
+type ClientMasterFormProps = FormProps<ClientMasterFormFields>;
 
 export function ClientMasterForm({
   mode,
@@ -60,7 +56,7 @@ export function ClientMasterForm({
     },
   });
 
-  const onSubmit: SubmitHandler<FormFields> = async (values) => {
+  const onSubmit: SubmitHandler<ClientMasterFormFields> = async (values) => {
     if (mode === "add") {
       create(values);
     } else {
@@ -248,12 +244,13 @@ export function ClientMasterForm({
               <FormItem className="flex flex-row items-start space-y-0 space-x-3 rounded-md border p-4 shadow">
                 <FormControl>
                   <Checkbox
+                    className="cursor-pointer"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
-                  <FormLabel className="text-xs font-semibold">
+                  <FormLabel className="cursor-pointer text-xs font-semibold">
                     Add to mailing list
                   </FormLabel>
                 </div>

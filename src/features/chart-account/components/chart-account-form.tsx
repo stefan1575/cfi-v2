@@ -1,8 +1,8 @@
 "use client";
 
-import { createShipment } from "@/features/shipment/mutations/createShipment";
-import { updateShipment } from "@/features/shipment/mutations/updateShipment";
-import { ShipmentSchema } from "@/features/shipment/schema";
+import { createChartAccount } from "@/features/chart-account/mutations/createChartAccount";
+import { updateChartAccount } from "@/features/chart-account/mutations/updateChartAccount";
+import { ChartAccountSchema } from "@/features/chart-account/schema";
 import { Button } from "@/shared/components/ui/button";
 import {
   Form,
@@ -23,12 +23,16 @@ import { useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type ShipmentFormFields = z.infer<typeof ShipmentSchema>;
-type ShipmentFormProps = FormProps<ShipmentFormFields>;
+type ChartAccountFormFields = z.infer<typeof ChartAccountSchema>;
+type ChartAccountFormProps = FormProps<ChartAccountFormFields>;
 
-export function ShipmentForm({ mode, defaultValues, id }: ShipmentFormProps) {
+export function ChartAccountForm({
+  mode,
+  defaultValues,
+  id,
+}: ChartAccountFormProps) {
   const form = useForm({
-    resolver: zodResolver(ShipmentSchema),
+    resolver: zodResolver(ChartAccountSchema),
     defaultValues,
   });
 
@@ -36,22 +40,22 @@ export function ShipmentForm({ mode, defaultValues, id }: ShipmentFormProps) {
   const router = useRouter();
 
   const { mutate: create, isPending: isPendingCreate } = useMutation({
-    mutationFn: createShipment,
+    mutationFn: createChartAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["shipment"] });
-      router.push("/dashboard/shipment");
+      queryClient.invalidateQueries({ queryKey: ["chartAccount"] });
+      router.push("/dashboard/chart-account");
     },
   });
 
   const { mutate: update, isPending: isPendingUpdate } = useMutation({
-    mutationFn: updateShipment,
+    mutationFn: updateChartAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["shipment"] });
-      router.push("/dashboard/shipment");
+      queryClient.invalidateQueries({ queryKey: ["chartAccount"] });
+      router.push("/dashboard/chart-account");
     },
   });
 
-  const onSubmit: SubmitHandler<ShipmentFormFields> = async (values) => {
+  const onSubmit: SubmitHandler<ChartAccountFormFields> = async (values) => {
     if (mode === "add") {
       create(values);
     } else {
@@ -76,50 +80,16 @@ export function ShipmentForm({ mode, defaultValues, id }: ShipmentFormProps) {
         <div className="grid grid-cols-2 gap-6">
           <FormField
             control={form.control}
-            name="year"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs font-semibold">Year</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="Year" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="shipmentNumber"
+            name="accountNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs font-semibold">
-                  Shipment Number
+                  Account Number
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="Shipment Number"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-6">
-          <FormField
-            control={form.control}
-            name="landedCostRatio"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs font-semibold">
-                  Landing Cost Ratio
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="Landing Cost Ratio"
+                    placeholder="Account Number"
                     {...field}
                   />
                 </FormControl>
@@ -129,19 +99,14 @@ export function ShipmentForm({ mode, defaultValues, id }: ShipmentFormProps) {
           />
           <FormField
             control={form.control}
-            name="exchangeRate"
+            name="accountName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs font-semibold">
-                  Exchange Rate
+                  Account Name
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    placeholder="Exchange Rate"
-                    {...field}
-                  />
+                  <Input type="number" placeholder="Account Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

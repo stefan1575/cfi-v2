@@ -1,57 +1,48 @@
 "use client";
 
-import { deleteShipment } from "@/features/shipment/mutations/deleteShipment";
+import { deleteChartAccount } from "@/features/chart-account/mutations/deleteChartAccount";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import type { Shipment } from "@prisma/client";
+import type { ChartAccount } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
-const columnHelper = createColumnHelper<Shipment>();
+const columnHelper = createColumnHelper<ChartAccount>();
 
 export const columns = [
   columnHelper.accessor("id", {
     header: () => "",
     cell: (v) => {
-      return <ShipmentActions data={v.row.original} />;
+      return <ChartAccountActions data={v.row.original} />;
     },
-    id: "combinedSort",
   }),
-  columnHelper.accessor("year", {
-    header: "Year",
+  columnHelper.accessor("accountNumber", {
+    header: "Account Number",
     cell: (v) => v.getValue() ?? "",
   }),
-  columnHelper.accessor("shipmentNumber", {
-    header: "Shipment Number",
-    cell: (v) => v.getValue() ?? "",
-  }),
-  columnHelper.accessor("landedCostRatio", {
-    header: "Landing Cost Ratio",
-    cell: (v) => v.getValue() ?? "",
-  }),
-  columnHelper.accessor("exchangeRate", {
-    header: "Exchange Rate",
+  columnHelper.accessor("accountName", {
+    header: "Account Name",
     cell: (v) => v.getValue() ?? "",
   }),
 ];
 
-type ShipmentActionsProps = {
-  data: Shipment;
+type ChartAccountActionsProps = {
+  data: ChartAccount;
 };
 
-function ShipmentActions({ data }: ShipmentActionsProps) {
+function ChartAccountActions({ data }: ChartAccountActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: deleteShipment,
+    mutationFn: deleteChartAccount,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["shipment"] });
+      queryClient.invalidateQueries({ queryKey: ["chartAccount"] });
     },
     onError: (error) => {
       console.error(error);

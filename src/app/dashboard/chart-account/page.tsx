@@ -1,8 +1,8 @@
 "use client";
 
-import { columns } from "@/features/shipment/components/columns";
-import { getManyShipment } from "@/features/shipment/queries/getManyShipment";
-import { getShipmentCount } from "@/features/shipment/queries/getShipmentCount";
+import { columns } from "@/features/chart-account/components/columns";
+import { getChartAccountCount } from "@/features/chart-account/queries/getChartAccountCount";
+import { getManyChartAccount } from "@/features/chart-account/queries/getManyChartAccount";
 import { DataTable } from "@/shared/components/data-table";
 import { Prisma } from "@prisma/client";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ import { useDebouncedCallback } from "use-debounce";
 
 type FindManyArgs = Required<
   Pick<
-    Prisma.ShipmentFindManyArgs,
+    Prisma.ChartAccountFindManyArgs,
     "skip" | "take" | "select" | "orderBy" | "where"
   >
 >;
@@ -25,24 +25,23 @@ export default function Page() {
     take: PAGE_SIZE,
     select: {
       id: true,
-      year: true,
-      shipmentNumber: true,
-      landedCostRatio: true,
-      exchangeRate: true,
+      accountNumber: true,
+      accountName: true,
     },
-    orderBy: [{ year: "desc" }, { shipmentNumber: "desc" }],
+    orderBy: { accountNumber: "desc" },
     where: {},
   });
 
   const { data } = useQuery({
-    queryKey: ["shipment", findManyArgs],
-    queryFn: async () => await getManyShipment(findManyArgs),
+    queryKey: ["chartAccount", findManyArgs],
+    queryFn: async () => await getManyChartAccount(findManyArgs),
     placeholderData: keepPreviousData,
   });
 
   const { data: count } = useQuery({
-    queryKey: ["shipmentCount", findManyArgs.where],
-    queryFn: async () => await getShipmentCount({ where: findManyArgs.where }),
+    queryKey: ["chartAccountCount", findManyArgs.where],
+    queryFn: async () =>
+      await getChartAccountCount({ where: findManyArgs.where }),
     placeholderData: keepPreviousData,
   });
 
@@ -61,19 +60,12 @@ export default function Page() {
         pageSize: findManyArgs.take,
       },
       // Tanstack Table sorting object shape - https://tanstack.com/table/v8/docs/guide/sorting#sorting-state
-      sorting: Array.isArray(findManyArgs.orderBy)
-        ? [
-            {
-              id: "combinedSort", // defined in the shipment column definitions
-              desc: findManyArgs.orderBy[0].year === "desc",
-            },
-          ]
-        : [
-            {
-              id: Object.keys(findManyArgs.orderBy)[0],
-              desc: Object.values(findManyArgs.orderBy)[0] === "desc",
-            },
-          ],
+      sorting: [
+        {
+          id: Object.keys(findManyArgs.orderBy)[0],
+          desc: Object.values(findManyArgs.orderBy)[0] === "desc",
+        },
+      ],
       globalFilter: "",
     },
     onPaginationChange: (updater) => {
@@ -99,23 +91,14 @@ export default function Page() {
           const sortColumn = newSorting[0].id;
           const sortDirection = newSorting[0].desc ? "desc" : "asc";
 
-          if (sortColumn === "combinedSort") {
-            setFindManyArgs({
-              ...findManyArgs,
-              orderBy: [
-                { year: sortDirection },
-                { shipmentNumber: sortDirection },
-              ],
-            });
-          } else {
-            setFindManyArgs({
-              ...findManyArgs,
-              orderBy: { [sortColumn]: sortDirection },
-            });
-          }
+          setFindManyArgs({
+            ...findManyArgs,
+            orderBy: { [sortColumn]: sortDirection },
+          });
         }
       }
     },
+
     onGlobalFilterChange: (value) => {
       debouncedHandleSearch(value);
     },
@@ -133,10 +116,8 @@ export default function Page() {
         where: {
           AND: words.map((word) => ({
             OR: [
-              { year: { contains: word } },
-              { shipmentNumber: { contains: word } },
-              { landedCostRatio: { equals: word } },
-              { exchangeRate: { equals: word } },
+              { accountName: { contains: word } },
+              { accountNumber: { contains: word } },
             ],
           })),
         },
@@ -152,10 +133,8 @@ export default function Page() {
         skip: 0,
         where: {
           OR: [
-            { year: { contains: searchInput } },
-            { shipmentNumber: { contains: searchInput } },
-            { landedCostRatio: { equals: searchInput } },
-            { exchangeRate: { equals: searchInput } },
+            { accountName: { contains: searchInput } },
+            { accountNumber: { contains: searchInput } },
           ],
         },
       });
@@ -170,7 +149,7 @@ export default function Page() {
 
   return (
     <div className="space-y-4">
-      <DataTable href="/dashboard/shipment/add" table={table} />
+      <DataTable href="/dashboard/chart-account/add" table={table} />
     </div>
   );
 }

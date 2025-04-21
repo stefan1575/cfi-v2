@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteClientMaster } from "@/features/client-master/mutations/deleteClientMaster";
+import { deleteShipment } from "@/features/shipment/mutations/deleteShipment";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,9 +49,9 @@ function ShipmentActions({ data }: ShipmentActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: deleteClientMaster,
+    mutationFn: deleteShipment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["clientMaster"] });
+      queryClient.invalidateQueries({ queryKey: ["shipment"] });
     },
     onError: (error) => {
       console.error(error);

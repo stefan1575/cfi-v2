@@ -1,7 +1,7 @@
 "use client";
 
-import { createShipment } from "../mutations/createShipment";
-import { updateShipment } from "../mutations/updateShipment";
+import { createShipment } from "@/features/shipment/mutations/createShipment";
+import { updateShipment } from "@/features/shipment/mutations/updateShipment";
 import { ShipmentSchema } from "@/features/shipment/schema";
 import { Button } from "@/shared/components/ui/button";
 import {

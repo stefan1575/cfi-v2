@@ -1,12 +1,6 @@
+import { createSchemaFromPrisma } from "@/shared/lib/types";
 import { ClientMaster } from "@prisma/client";
 import { z } from "zod";
-
-/**
- * Create a type-safe schema from Prisma model
- */
-function createSchemaFromPrisma<T>() {
-  return <S extends z.ZodType<T>>(schema: S) => schema;
-}
 
 export type ClientMasterFormFields = Pick<
   ClientMaster,
@@ -23,7 +17,6 @@ export type ClientMasterFormFields = Pick<
   | "isMailingList"
 >;
 
-// This ensures the schema matches the Prisma type
 export const ClientMasterSchema =
   createSchemaFromPrisma<ClientMasterFormFields>()(
     z.object({

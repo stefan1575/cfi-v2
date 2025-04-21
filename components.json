@@ -13,9 +13,9 @@
   "aliases": {
     "components": "@/shared/components",
     "utils": "@/shared/lib/utils",
-    "ui": "@/shared/lib/components/ui",
+    "ui": "@/shared/components/ui",
     "lib": "@/shared/lib",
-    "hooks": "@/shared/lib/hooks"
+    "hooks": "@/shared/hooks"
   },
   "iconLibrary": "lucide"
 }

@@ -60,8 +60,8 @@ const data = {
       icon: HandCoins,
     },
     {
-      title: "Exchange Rate",
-      url: "/dashboard/exchange-rate",
+      title: "Shipment",
+      url: "/dashboard/shipment",
       icon: Scale,
     },
     {

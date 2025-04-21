@@ -15,6 +15,7 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { Separator } from "@/shared/components/ui/separator";
+import { FormProps } from "@/shared/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -23,13 +24,8 @@ import { useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type ClientMasterFormProps = {
-  mode: "add" | "edit";
-  defaultValues: FormFields;
-  id?: number;
-};
-
-type FormFields = z.infer<typeof ClientMasterSchema>;
+type ClientMasterFormFields = z.infer<typeof ClientMasterSchema>;
+type ClientMasterFormProps = FormProps<ClientMasterFormFields>;
 
 export function ClientMasterForm({
   mode,
@@ -60,7 +56,7 @@ export function ClientMasterForm({
     },
   });
 
-  const onSubmit: SubmitHandler<FormFields> = async (values) => {
+  const onSubmit: SubmitHandler<ClientMasterFormFields> = async (values) => {
     if (mode === "add") {
       create(values);
     } else {
@@ -78,10 +74,8 @@ export function ClientMasterForm({
         className="mx-auto w-3xl space-y-8 rounded-lg bg-white p-10 shadow-md"
       >
         <div>
-          <div className="flex text-2xl font-bold tracking-tight">
-            Client Master Form{" "}
-          </div>
-          <Separator />
+          <div className="flex text-xl font-bold">Client Master Form</div>
+          <Separator className="mt-2" />
         </div>
         {/* Personal Information */}
         <div className="grid grid-cols-2 gap-6">
@@ -90,9 +84,11 @@ export function ClientMasterForm({
             name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>First Name</FormLabel>
+                <FormLabel className="text-xs font-semibold">
+                  First Name
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="John" {...field} />
+                  <Input placeholder="First Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -103,9 +99,11 @@ export function ClientMasterForm({
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Last Name</FormLabel>
+                <FormLabel className="text-xs font-semibold">
+                  Last Name
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="Doe" {...field} />
+                  <Input placeholder="Last Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,12 +118,11 @@ export function ClientMasterForm({
             name="companyName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Company Name</FormLabel>
+                <FormLabel className="text-xs font-semibold">
+                  Company Name
+                </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Country French Interiors, Inc."
-                    {...field}
-                  />
+                  <Input placeholder="Company Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -136,9 +133,9 @@ export function ClientMasterForm({
             name="taxId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tax ID</FormLabel>
+                <FormLabel className="text-xs font-semibold">Tax ID</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input placeholder="Tax ID" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,9 +150,11 @@ export function ClientMasterForm({
             name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel className="text-xs font-semibold">
+                  Phone Number
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="214-747-4700" {...field} />
+                  <Input placeholder="Phone Number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -166,12 +165,11 @@ export function ClientMasterForm({
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email Address</FormLabel>
+                <FormLabel className="text-xs font-semibold">
+                  Email Address
+                </FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="info@countryfrenchinteriors.com"
-                    {...field}
-                  />
+                  <Input placeholder="Email Address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -186,9 +184,11 @@ export function ClientMasterForm({
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel className="text-xs font-semibold">
+                  Street Address
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="1428 Slocum St." {...field} />
+                  <Input placeholder="Street Address" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -199,9 +199,9 @@ export function ClientMasterForm({
             name="city"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>City</FormLabel>
+                <FormLabel className="text-xs font-semibold">City</FormLabel>
                 <FormControl>
-                  <Input placeholder="Dallas" {...field} />
+                  <Input placeholder="City" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -212,9 +212,9 @@ export function ClientMasterForm({
             name="state"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>State</FormLabel>
+                <FormLabel className="text-xs font-semibold">State</FormLabel>
                 <FormControl>
-                  <Input placeholder="TX" {...field} />
+                  <Input placeholder="State" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -225,9 +225,11 @@ export function ClientMasterForm({
             name="zipCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>ZIP Code</FormLabel>
+                <FormLabel className="text-xs font-semibold">
+                  Zip Code
+                </FormLabel>
                 <FormControl>
-                  <Input placeholder="75207" {...field} />
+                  <Input placeholder="Zip Code" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -242,12 +244,15 @@ export function ClientMasterForm({
               <FormItem className="flex flex-row items-start space-y-0 space-x-3 rounded-md border p-4 shadow">
                 <FormControl>
                   <Checkbox
+                    className="cursor-pointer"
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
-                  <FormLabel>Mailing List</FormLabel>
+                  <FormLabel className="cursor-pointer text-xs font-semibold">
+                    Add to mailing list
+                  </FormLabel>
                 </div>
               </FormItem>
             )}

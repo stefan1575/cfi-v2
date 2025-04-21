@@ -21,6 +21,7 @@ export const columns = [
     cell: (v) => {
       return <ShipmentActions data={v.row.original} />;
     },
+    id: "combinedSort",
   }),
   columnHelper.accessor("year", {
     header: "Year",

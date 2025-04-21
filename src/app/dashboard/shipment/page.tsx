@@ -61,12 +61,19 @@ export default function Page() {
         pageSize: findManyArgs.take,
       },
       // Tanstack Table sorting object shape - https://tanstack.com/table/v8/docs/guide/sorting#sorting-state
-      sorting: [
-        {
-          id: Object.keys(findManyArgs.orderBy)[0],
-          desc: Object.values(findManyArgs.orderBy)[0] === "desc",
-        },
-      ],
+      sorting: Array.isArray(findManyArgs.orderBy)
+        ? [
+            {
+              id: "combinedSort", // defined in the shipment column definitions
+              desc: findManyArgs.orderBy[0].year === "desc",
+            },
+          ]
+        : [
+            {
+              id: Object.keys(findManyArgs.orderBy)[0],
+              desc: Object.values(findManyArgs.orderBy)[0] === "desc",
+            },
+          ],
       globalFilter: "",
     },
     onPaginationChange: (updater) => {
@@ -92,14 +99,23 @@ export default function Page() {
           const sortColumn = newSorting[0].id;
           const sortDirection = newSorting[0].desc ? "desc" : "asc";
 
-          setFindManyArgs({
-            ...findManyArgs,
-            orderBy: { [sortColumn]: sortDirection },
-          });
+          if (sortColumn === "combinedSort") {
+            setFindManyArgs({
+              ...findManyArgs,
+              orderBy: [
+                { year: sortDirection },
+                { shipmentNumber: sortDirection },
+              ],
+            });
+          } else {
+            setFindManyArgs({
+              ...findManyArgs,
+              orderBy: { [sortColumn]: sortDirection },
+            });
+          }
         }
       }
     },
-
     onGlobalFilterChange: (value) => {
       debouncedHandleSearch(value);
     },

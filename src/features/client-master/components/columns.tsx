@@ -27,7 +27,6 @@ export const columns = [
   columnHelper.accessor("clientNumber", {
     header: "Client Number",
     cell: (v) => v.getValue() ?? "",
-    enableSorting: true,
   }),
   columnHelper.accessor("companyName", {
     header: "Company Name",
@@ -36,22 +35,18 @@ export const columns = [
   columnHelper.accessor("firstName", {
     header: "First Name",
     cell: (v) => v.getValue() ?? "",
-    enableSorting: true,
   }),
   columnHelper.accessor("lastName", {
     header: "Last Name",
     cell: (v) => v.getValue() ?? "",
-    enableSorting: true,
   }),
   columnHelper.accessor("email", {
     header: "Email Address",
     cell: (v) => v.getValue() ?? "",
-    enableSorting: true,
   }),
   columnHelper.accessor("phoneNumber", {
     header: "Phone Number",
     cell: (v) => v.getValue() ?? "",
-    enableSorting: true,
   }),
   columnHelper.accessor("address", {
     header: "Address",
@@ -65,12 +60,10 @@ export const columns = [
       ].filter(Boolean);
       return addressParts.join(", ");
     },
-    enableSorting: true,
   }),
   columnHelper.accessor("taxId", {
     header: "Tax Id",
     cell: (v) => v.getValue(),
-    enableSorting: true,
   }),
   columnHelper.accessor("isMailingList", {
     header: "Mailing List",
@@ -80,12 +73,10 @@ export const columns = [
   columnHelper.accessor("lastInvoiceDate", {
     header: "Last Invoice Date",
     cell: (v) => formatDate(v.getValue()),
-    enableSorting: true,
   }),
   columnHelper.accessor("totalSales", {
     header: "Total Sales",
     cell: (v) => `$ ${numberWithCommas(v.getValue())}`,
-    enableSorting: true,
   }),
 ];
 

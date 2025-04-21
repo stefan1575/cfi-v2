@@ -25,7 +25,6 @@ export const columns = [
   columnHelper.accessor("year", {
     header: "Year",
     cell: (v) => v.getValue() ?? "",
-    enableSorting: true,
   }),
   columnHelper.accessor("shipmentNumber", {
     header: "Shipment Number",

@@ -25,7 +25,6 @@ export const columns = [
   columnHelper.accessor("accountNumber", {
     header: "Account Number",
     cell: (v) => v.getValue() ?? "",
-    enableSorting: true,
   }),
   columnHelper.accessor("accountName", {
     header: "Account Name",
